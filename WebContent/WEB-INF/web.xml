@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	version="2.5">
+	<!--
+		web.xml的加载过程是context-param >> listener  >> fileter  >> servlet
+	 	context-param 元素用来声明应用范围(整个WEB项目)内的上下文初始化参数。
+		load-on-startup元素标记容器是否在启动的时候就加载这个servlet
+		1)它的值必须是一个整数，表示servlet应该被载入的顺序
+		2)当值为0或者大于0时，表示容器在应用启动时就加载并初始化这个servlet；
+		3)当值小于0或者没有指定时，则表示容器在该servlet被选择时才会去加载。
+		4)正数的值越小，该servlet的优先级越高，应用启动时就越先加载。
+		5)当值相同时，容器就会自己选择顺序来加载。
+		所以，<load-on-startup>x</load-on-startup>，中x的取值
+		1，2，3，4，5代表的是优先级，而非启动延迟时间。
+		-->
+	<display-name>Whispers</display-name>
+	
+	<!-- 默认首页定义 -->  
+	<welcome-file-list>  
+	  <welcome-file>framework/app.html</welcome-file>  
+	</welcome-file-list>
+
+	
+<!-- SpringMVC分发器 -->
+	<servlet>
+		<servlet-name>springmvc</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>springmvc</servlet-name>
+		<url-pattern>/index</url-pattern>
+	</servlet-mapping>
+    <servlet-mapping>  
+        <servlet-name>springmvc</servlet-name>  
+        <url-pattern>/</url-pattern>  
+    </servlet-mapping>
+	<!-- 字符集 过滤器  -->
+	<filter>
+		<description>字符集过滤器</description>
+		<filter-name>encodingFilter</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+		<init-param>
+			<description>字符集编码</description>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>encodingFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+	<!-- 请求日志 -->
+<!-- 	<filter> -->
+<!-- 		<filter-name>RequestFilter</filter-name> -->
+<!-- 		<filter-class>com.whispers.filter.RequestFilter</filter-class> -->
+<!-- 	</filter> -->
+<!-- 	<filter-mapping> -->
+<!-- 		<filter-name>RequestFilter</filter-name> -->
+<!-- 		<url-pattern>/*</url-pattern> -->
+<!-- 	</filter-mapping> -->
+	
+	<!-- 验证 -->
+<!-- 	<filter> -->
+<!-- 		<filter-name>ValidateFilter</filter-name> -->
+<!-- 		<filter-class>com.whispers.filter.ValidataFilter</filter-class> -->
+<!-- 	</filter> -->
+<!-- 	<filter-mapping> -->
+<!-- 		<filter-name>ValidateFilter</filter-name> -->
+<!-- 		<url-pattern>/user/*</url-pattern> -->
+<!-- 	</filter-mapping> -->
+
+<!--会话超时时间/分钟 -->
+	<session-config>
+		<session-timeout>30</session-timeout>
+	</session-config>
+</web-app>

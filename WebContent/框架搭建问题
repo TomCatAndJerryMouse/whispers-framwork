@@ -1,0 +1,5 @@
+1.静态资源访问要在servleter.xml中配置
+	<!-- 使用默认的注解映射 -->
+	<mvc:annotation-driven />
+	<mvc:resources mapping="/**" location="/"/>
+	路径为webapp根目录，**代表目录下所有静态资源包括子目录

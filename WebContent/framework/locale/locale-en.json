@@ -1,0 +1,9 @@
+{
+  "USER_NAME": "Username:",
+  "PWD": "PassWord:",
+  "ENTER_USERNAME":"Enter username",
+  "ENTER_PWD":"Enter password",
+  "LOGIN":"login",
+  "REMBER_ME":"Rember me",
+  "USERNAME_PWD_ERROR":"用户名或密码错误！"
+}

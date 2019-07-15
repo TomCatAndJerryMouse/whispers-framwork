@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:p="http://www.springframework.org/schema/p"
+		xmlns:context="http://www.springframework.org/schema/context"
+		xmlns:util="http://www.springframework.org/schema/util"
+		xmlns:mvc="http://www.springframework.org/schema/mvc"
+		xsi:schemaLocation="
+		  http://www.springframework.org/schema/beans
+		  http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+		  http://www.springframework.org/schema/util
+		  http://www.springframework.org/schema/util/spring-util-4.2.xsd
+		  http://www.springframework.org/schema/context 
+		  http://www.springframework.org/schema/context/spring-context-4.2.xsd
+		  http://www.springframework.org/schema/mvc
+		  http://www.springframework.org/schema/mvc/spring-mvc-4.2.xsd">
+		  
+	<!-- 使用默认的注解映射 -->
+	<mvc:annotation-driven />
+	<mvc:resources location="/framework/" mapping="/framework/**" />
+	<!-- 自动扫描Spring实例 -->
+	<context:component-scan base-package="com.whispers.framework.controler"/>
+	<context:component-scan base-package="com.whispers.framework.dao"/>
+	<context:component-scan base-package="com.whispers.framework.service"/>
+	
+    <!--在xml文件中有以下几类字符要进行转义替换： &lt;<   &gt;>   &amp;&   &apos;' &quot;" -->
+  	<bean id="MyDataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+        <property name="url" value="jdbc:mysql://127.0.0.1:3306/whispers-framwork?useUnicode=true&amp;characterEncoding=utf8&amp;serverTimezone=GMT&amp;useSSL=false"/>
+        <property name="username" value="root"/>
+        <property name="password" value=""></property>
+    </bean>
+       <bean id="jdbcTemplate" name="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+        <property name="dataSource" ref="MyDataSource"/>
+    </bean>
+</beans>
