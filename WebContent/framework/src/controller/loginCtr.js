@@ -9,8 +9,19 @@ app.controller("loginCtr",function($scope,$location,$http) {
                 url : '/user/login',
                 data : user
             }).then(function successCallback(response) {
-    			console.log(data);
-    		    $location.path("/index");
+            	var data = response.data;
+            	if (data && data.type != "ERROE")
+        		{
+            		$location.path("/index");
+        		}
+            	else if (data && data.type === "ERROE")
+        		{
+            		if (data.code === "10002")
+        			{
+            			$scope.showLoginErrorTips = true;
+            			console.log(data.code);
+        			}
+        		}
             }, function errorCallback(response) {
             	$scope.showLoginErrorTips = true;
      			console.log(data);
