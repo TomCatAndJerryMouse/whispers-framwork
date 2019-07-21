@@ -4,7 +4,10 @@
 	    <meta charset="UTF-8">
 	    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	    <link rel="stylesheet" href="/framework/third/css/bootstrap.min.css">
-	    <title>Title</title>
+	    <link rel="stylesheet" href="/framework/src/fonts/ionicons.min.css">
+       	<link rel="stylesheet" href="/framework/src/css/whispers-framework.css">
+	    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Bitter:400,700">
+	    <title>Whispers</title>
 	    <script src="/framework/third/js/jquery-3.3.1.min.js"></script>
 	    <script src="/framework/third/js/popper.min.js"></script>
 	    <script src="/framework/third/js/bootstrap.min.js"></script>
@@ -16,19 +19,27 @@
    	    <script src="/framework/main.js"></script>
 	    <script src="/framework/src/controller/loginCtr.js"></script>
 	    <script src="/framework/src/controller/indexCtr.js"></script>
-
 	</head>
 	<body>
-		<div class="jumbotron text-center ">
-		<h1>Whispers</h1>
-		</div>
-		<div class="container-fluid" style="margin-top:100px">
+		<!-- 	头部 -->
+        <div class="header-dark">
+            <nav class="navbar navbar-default">
+                   <div class="navbar-header"><a class="navbar-brand" href="#">Whispers</a></div>
+        	</nav>
+    	</div>
+		<!--     内容 -->
+		<div class="container-fluid">
 			<div class="row">
 				<div ui-view="" class="col-xl"></div>
 			</div>
 		</div>
-		<div style="background-color:#e9ecef;position:fixed;bottom:0px;left:0px;text-align:center;width: 100%">
-			<h3>Copright@whisper2018-2019</h3>
-		</div >
+		<!-- 		底部 -->
+	    <div class="footer-dark">
+	        <footer>
+	            <div class="container">
+	                <p class="copyright">Company Whispers © 2019</p>
+	            </div>
+	        </footer>
+    	</div>
 	</body>
 </html>

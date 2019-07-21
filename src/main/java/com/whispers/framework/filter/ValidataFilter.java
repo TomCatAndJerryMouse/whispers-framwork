@@ -14,14 +14,12 @@ import javax.servlet.http.HttpServletResponse;
 public class ValidataFilter implements Filter{
 
 	public void destroy() {
-		// TODO Auto-generated method stub
-		
+		System.out.println( "ValidataFilter destroy");
 	}
 
 	public void doFilter(ServletRequest servletrequest, ServletResponse servletresponse, FilterChain filterchain)
 			throws IOException, ServletException {
 		System.out.println(Thread.currentThread().getName() + "  " + "ValidataFilter url is requered");
-		
 		//获取session
 		HttpServletRequest httpRequest = (HttpServletRequest)servletrequest;
 		//获取session
@@ -35,20 +33,14 @@ public class ValidataFilter implements Filter{
 //            stringBuilder.append(new String(b, 0, readByte));
 //        }
 //		System.out.println("username" + stringBuilder.toString());
-		System.out.println(Thread.currentThread().getName() + "  " + httpRequest.getHeader("Referer"));
+		System.out.println(Thread.currentThread().getName() + "  " + httpRequest.getHeader("Referer") + " 	httpRequest.getSession().getId();" + 	httpRequest.getSession().getId());
 		//重定向
-		httpResponse.sendRedirect(httpRequest.getHeader("Referer")+ "ui/css/bootstrap.min.css");
 		//转发
-//		httpResponse.
 		//打印seesionid
 		filterchain.doFilter(servletrequest, servletresponse);
-		System.out.println("BBBBBBBBBBBBBBBBBBBBB");
-
 	}
 
 	public void init(FilterConfig arg0) throws ServletException {
 		System.out.println("ValidataFilter is loaded.");
-		
 	}
-	
 }

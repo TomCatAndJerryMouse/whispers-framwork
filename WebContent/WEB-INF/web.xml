@@ -64,16 +64,16 @@
 <!-- 	</filter-mapping> -->
 	
 	<!-- 验证 -->
-<!-- 	<filter> -->
-<!-- 		<filter-name>ValidateFilter</filter-name> -->
-<!-- 		<filter-class>com.whispers.filter.ValidataFilter</filter-class> -->
-<!-- 	</filter> -->
-<!-- 	<filter-mapping> -->
-<!-- 		<filter-name>ValidateFilter</filter-name> -->
-<!-- 		<url-pattern>/user/*</url-pattern> -->
-<!-- 	</filter-mapping> -->
+	<filter>
+		<filter-name>ValidateFilter</filter-name>
+		<filter-class>com.whispers.framework.filter.ValidataFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>ValidateFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
 
-<!--会话超时时间/分钟 -->
+	<!--会话超时时间/分钟 -->
 	<session-config>
 		<session-timeout>30</session-timeout>
 	</session-config>

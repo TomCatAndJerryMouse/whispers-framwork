@@ -15,7 +15,7 @@ import com.whispers.framework.service.UserService;
  * 控制层
  */
 @Controller
-@RequestMapping(value="/user")
+@RequestMapping(value="/rest/user")
 public class UserControler{
 	@Autowired
 	private UserService userService;

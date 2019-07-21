@@ -1,22 +1,9 @@
-<div class="container-fluid">
-	<div class="row">
-	    <div class="col">
-	    </div>
-	    <div class="col">
-			<form>
-			   <div class="form-group">
-			       <label for="email">{{"USER_NAME" | translate}}</label>
-			       <input type="text" class="form-control" id="email" placeholder="Enter username" ng-model="username">
-			       <label ng-if="showLoginErrorTips" class="bg-warning">{{"USERNAME_PWD_ERROR" | translate}}</label>
-			   </div>
-			   <div class="form-group">
-			       <label for="pwd">{{"PWD" | translate}}</label>
-			       <input type="password" class="form-control" id="user.pwd" placeholder="Enter password" ng-model="pwd">
-			   </div>
-			   <button type="submit" class="btn btn-primary" ng-click="login()">{{"LOGIN" | translate}}</button>
-			</form>
-	    </div>
-	    <div class="col">
-	    </div>
-	</div>
+<div class="login-clean">
+    <form method="post">
+        <h2 class="sr-only">Login Form</h2>
+        <div class="form-group"><input class="form-control" type="text" name="username" placeholder="{{'ENTER_USERNAME' | translate}}" id="username" ng-model="username"></div>
+        <div class="form-group"><input class="form-control" type="password" name="password" placeholder="{{'ENTER_PWD' | translate}}" id="user.pwd" ng-model="pwd"></div>
+        <label ng-if="showLoginErrorTips" class="text-color-error">{{"USERNAME_PWD_ERROR" | translate}}</label>
+        <div class="form-group"><button class="btn btn-primary btn-block" type="submit" ng-click="login()" >{{"LOGIN" | translate}}</button></div><a href="#" class="forgot">Forgot your email or password?</a>
+    </form>
 </div>

@@ -6,7 +6,7 @@ app.controller("loginCtr",function($scope,$location,$http) {
         	var user = {"username":$scope.username,"pwd":$scope.pwd};
             $http({
                 method : 'POST',
-                url : '/user/login',
+                url : '/rest/user/login',
                 data : user
             }).then(function successCallback(response) {
             	var data = response.data;
@@ -24,6 +24,7 @@ app.controller("loginCtr",function($scope,$location,$http) {
         		}
             }, function errorCallback(response) {
             	$scope.showLoginErrorTips = true;
+            	$location.path("/login");
      			console.log(data);
             });
     	}
