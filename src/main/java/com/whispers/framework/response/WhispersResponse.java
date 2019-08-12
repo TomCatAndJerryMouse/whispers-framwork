@@ -11,9 +11,9 @@ public class WhispersResponse {
 	// 描述
 	private String desc;
 	// 响应数据
-	private List<Object> datas;
+	private List<?> datas;
 	
-	public WhispersResponse(ResponseEnum responseenum, List<Object> datas) {
+	public WhispersResponse(ResponseEnum responseenum, List<?> datas) {
 		this.type = responseenum.getType();
 		this.code = responseenum.getCode();
 		this.desc = responseenum.getDesc();
@@ -42,10 +42,10 @@ public class WhispersResponse {
 	public void setDesc(String desc) {
 		this.desc = desc;
 	}
-	public List<Object> getDatas() {
+	public List<?> getDatas() {
 		return datas;
 	}
-	public void setDatas(List<Object> datas) {
+	public void setDatas(List<?> datas) {
 		this.datas = datas;
 	}
 }
