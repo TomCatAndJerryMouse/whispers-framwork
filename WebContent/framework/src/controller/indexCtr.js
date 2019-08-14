@@ -21,7 +21,7 @@ app.controller("indexCtr",function($scope){
     	if (!file)
 		{
     		console.log("file is null");
-    		return;
+    		return;	
 		}
     	console.log("文件总大小   " + file.size);
     	// 向上取整计算文件总片数
@@ -40,7 +40,6 @@ app.controller("indexCtr",function($scope){
     		currentSendSliceCount++;
     		// 执行上传
     		$scope.upload(currentSliceFile,currentSendSliceCount);
-    
 		}
     }
     
@@ -50,8 +49,67 @@ app.controller("indexCtr",function($scope){
 		console.log("当前发送文件片段大小  " + currentSliceFile.size);
 		$scope.alreadySendFileSize += currentSliceFile.size;
 		console.log("已经发送文件总大小  " + $scope.alreadySendFileSize);
+		var formData = $scope.uploadPlugin.construtsUploadData(currentSliceFile);
+		var xhr = $scope.uploadPlugin.construtsUploadRequest("http://127.0.0.1:8080/rest/upload/single");
+		$scope.uploadPlugin.startUpload(xhr,formData);
+		
+		
+
+		
     }
     
+    $scope.uploadPlugin = {
+		// 构造上传请求
+		construtsUploadRequest : function (url)
+		{
+			console.log("construtsUploadRequest");
+			var xhr = new XMLHttpRequest();
+			xhr.open("post", url, false); //post方式，url为服务器请求地址，true 该参数规定请求是否异步处理。
+			// 上传前
+			xhr.upload.onloadstart = $scope.uploadPlugin.beforeUpload;
+			// 上传中
+			xhr.upload.onprogress = $scope.uploadPlugin.uploadFailed;
+			// 上传完成
+			xhr.onload = $scope.uploadPlugin.uploadComplete;
+			// 上传失败
+			xhr.onerror = $scope.uploadPlugin.uploadFailed;
+			return xhr;
+		},
+		// 构造上传请求
+		construtsUploadData : function (file)
+		{
+			console.log("construtsUploadData");
+			var form = new FormData();
+			form.append("file",file)
+			return form;
+		},
+		// 启动上传
+		startUpload : function (xhr,formData)
+		{
+			console.log("startUpload");
+			xhr.send(formData);
+		},
+		// 上传前
+		beforeUpload : function ()
+		{
+			console.log("beforeUpload");
+		},
+		// 上传中
+		uploadProgress : function ()
+		{
+			console.log("uploadProgress");
+		},
+		// 上传完成
+		uploadComplete : function ()
+		{
+			console.log("uploadComplete");
+		},
+		// 上传失败
+		uploadFailed : function ()
+		{
+			console.log("uploadFailed");
+		}
+    }
     // 列举本地文件
     $scope.listFile = function (items)
     {

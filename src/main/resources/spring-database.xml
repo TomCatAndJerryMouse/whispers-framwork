@@ -19,7 +19,7 @@
         <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
         <property name="url" value="jdbc:mysql://127.0.0.1:3306/whispers-framwork?useUnicode=true&amp;characterEncoding=utf8&amp;serverTimezone=GMT&amp;useSSL=false"/>
         <property name="username" value="root"/>
-        <property name="password" value="root"></property>
+        <property name="password" value=""></property>
     </bean>
     
     <bean id="jdbcTemplate" name="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
