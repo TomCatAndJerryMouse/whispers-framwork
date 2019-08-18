@@ -6,3 +6,4 @@ build
 WebContent/classes
 WebContent/.gitignore
 WebContent/WEB-INF/.gitignore
+WebContent/.idea/

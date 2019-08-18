@@ -4,7 +4,9 @@ public enum ResponseEnum {
 	// 登录成功
 	LOGINSUCCESS("SUCC","00001","Login Success."),
 	// 登录失败，用户名或密码错误
-	LOGINFILAD("ERROE","10002","Login filad.");
+	LOGINFILAD("ERROE","10002","Login filad."),
+	// 上传成功
+	UPLOADSUCCESS("SUCC","20001","Upload suceess.");
 	// 响应枚举类型，标识业务是否成功或者失败
 	private String type;
 	// 响应枚举，状态码
