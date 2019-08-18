@@ -1,7 +1,6 @@
 package com.whispers.bussiness.controler.uplooad;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
@@ -11,7 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.FileItemIterator;
 import org.apache.commons.fileupload.ProgressListener;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
@@ -29,6 +27,7 @@ import com.whispers.framework.response.WhispersResponse;
 @Scope("prototype")
 public class FileUpload {
 	private String upladPath = "D:" + File.separator + "upload";
+	private String partialPath = "D:" + File.separator + "partial";
 	@RequestMapping("/single")
 	@ResponseBody
 	public WhispersResponse SingleFileUpload(HttpServletRequest request, HttpServletResponse response)
@@ -37,25 +36,25 @@ public class FileUpload {
 		OutputStream out = null;
 		request = (HttpServletRequest)request;
         try {
-        	//1¡¢´´½¨Ò»¸öDiskFileItemFactory¹¤³§
+        	//1ã€åˆ›å»ºä¸€ä¸ªDiskFileItemFactoryå·¥å‚
             DiskFileItemFactory factory = new DiskFileItemFactory();
-            //2¡¢´´½¨Ò»¸öÎÄ¼şÉÏ´«½âÎöÆ÷
+            //2ã€åˆ›å»ºä¸€ä¸ªæ–‡ä»¶ä¸Šä¼ è§£æå™¨
             ServletFileUpload upload = new ServletFileUpload(factory);
-            //¼àÌıÎÄ¼şÉÏ´«½ø¶È
+            //ç›‘å¬æ–‡ä»¶ä¸Šä¼ è¿›åº¦
             upload.setProgressListener(new ProgressListener(){
                 public void update(long pBytesRead, long pContentLength, int arg2) {
-                    System.out.println("ÎÄ¼ş´óĞ¡Îª£º" + pContentLength + ",µ±Ç°ÒÑ´¦Àí£º" + pBytesRead);
+                    System.out.println("æ–‡ä»¶å¤§å°ä¸ºï¼š" + pContentLength + ",å½“å‰å·²å¤„ç†ï¼š" + pBytesRead);
                 }
             });
-            //½â¾öÉÏ´«ÎÄ¼şÃûµÄÖĞÎÄÂÒÂë
+            //è§£å†³ä¸Šä¼ æ–‡ä»¶åçš„ä¸­æ–‡ä¹±ç 
             upload.setHeaderEncoding("UTF-8");
-            //3¡¢ÅĞ¶ÏÌá½»ÉÏÀ´µÄÊı¾İÊÇ·ñÊÇÉÏ´«±íµ¥µÄÊı¾İ
+            //3ã€åˆ¤æ–­æäº¤ä¸Šæ¥çš„æ•°æ®æ˜¯å¦æ˜¯ä¸Šä¼ è¡¨å•çš„æ•°æ®
             if(!ServletFileUpload.isMultipartContent(request)){
             	 System.out.println("isMultipartContent null ");
-            	//°´ÕÕ´«Í³·½Ê½»ñÈ¡Êı¾İ
+            	//æŒ‰ç…§ä¼ ç»Ÿæ–¹å¼è·å–æ•°æ®
             	return new WhispersResponse(ResponseEnum.UPLOADSUCCESS,null);
             }
-            //4¡¢Ê¹ÓÃServletFileUpload½âÎöÆ÷½âÎöÉÏ´«Êı¾İ£¬½âÎö½á¹û·µ»ØµÄÊÇÒ»¸öList<FileItem>¼¯ºÏ£¬Ã¿Ò»¸öFileItem¶ÔÓ¦Ò»¸öForm±íµ¥µÄÊäÈëÏî
+            //4ã€ä½¿ç”¨ServletFileUploadè§£æå™¨è§£æä¸Šä¼ æ•°æ®ï¼Œè§£æç»“æœè¿”å›çš„æ˜¯ä¸€ä¸ªList<FileItem>é›†åˆï¼Œæ¯ä¸€ä¸ªFileItemå¯¹åº”ä¸€ä¸ªFormè¡¨å•çš„è¾“å…¥é¡¹
             List<FileItem> list = upload.parseRequest(request);
 			File uploadDir = new File(upladPath);
 			if (!uploadDir.exists()){
@@ -64,7 +63,7 @@ public class FileUpload {
 			list.forEach(f->{
 				if (f.isFormField()){
 					String name = f.getFieldName();
-					//½â¾öÆÕÍ¨ÊäÈëÏîµÄÊı¾İµÄÖĞÎÄÂÒÂëÎÊÌâ
+					//è§£å†³æ™®é€šè¾“å…¥é¡¹çš„æ•°æ®çš„ä¸­æ–‡ä¹±ç é—®é¢˜
 					String value = "";
 					try {
 						value = f.getString("UTF-8");
@@ -80,16 +79,16 @@ public class FileUpload {
 					}
 					System.out.println(name + "=" + value);
 		       	} else {
-		       		// »ñÈ¡ÎÄ¼şÃû
+		       		// è·å–æ–‡ä»¶å
 		       		String fileName = f.getName();
-		       		//×¢Òâ£º²»Í¬µÄä¯ÀÀÆ÷Ìá½»µÄÎÄ¼şÃûÊÇ²»Ò»ÑùµÄ£¬ÓĞĞ©ä¯ÀÀÆ÷Ìá½»ÉÏÀ´µÄÎÄ¼şÃûÊÇ´øÓĞÂ·¾¶µÄ£¬Èç£º  c:\a\b\1.txt£¬¶øÓĞĞ©Ö»ÊÇµ¥´¿µÄÎÄ¼şÃû£¬Èç£º1.txt
-                    //´¦Àí»ñÈ¡µ½µÄÉÏ´«ÎÄ¼şµÄÎÄ¼şÃûµÄÂ·¾¶²¿·Ö£¬Ö»±£ÁôÎÄ¼şÃû²¿·Ö
+		       		//æ³¨æ„ï¼šä¸åŒçš„æµè§ˆå™¨æäº¤çš„æ–‡ä»¶åæ˜¯ä¸ä¸€æ ·çš„ï¼Œæœ‰äº›æµè§ˆå™¨æäº¤ä¸Šæ¥çš„æ–‡ä»¶åæ˜¯å¸¦æœ‰è·¯å¾„çš„ï¼Œå¦‚ï¼š  c:\a\b\1.txtï¼Œè€Œæœ‰äº›åªæ˜¯å•çº¯çš„æ–‡ä»¶åï¼Œå¦‚ï¼š1.txt
+                    //å¤„ç†è·å–åˆ°çš„ä¸Šä¼ æ–‡ä»¶çš„æ–‡ä»¶åçš„è·¯å¾„éƒ¨åˆ†ï¼Œåªä¿ç•™æ–‡ä»¶åéƒ¨åˆ†
 		       		fileName = fileName.substring(fileName.lastIndexOf("\\") + 1);
 		       		System.out.println("fileName " + fileName);
-		       		// »ñÈ¡À©Õ¹Ãû
+		       		// è·å–æ‰©å±•å
 		       		String fileSuffix = fileName.substring(fileName.lastIndexOf("."));
 		       		System.out.println("fileSuffix " + fileSuffix);
-		       		// ±£´æÂ·¾¶
+		       		// ä¿å­˜è·¯å¾„
 	            	File saveFile = new File(uploadDir + File.separator + fileName);
 					System.out.println("savePath " + saveFile.getPath());
 					try {
@@ -107,5 +106,83 @@ public class FileUpload {
         	StreamUtil.closeStream(in, out);
         }
         return new WhispersResponse(ResponseEnum.UPLOADSUCCESS,null);
+	}
+	@RequestMapping("/partial")
+	@ResponseBody
+	public WhispersResponse partialUpload(HttpServletRequest request, HttpServletResponse response)
+	{
+		request = (HttpServletRequest)request;
+		try {
+        	//1ã€åˆ›å»ºä¸€ä¸ªDiskFileItemFactoryå·¥å‚
+            DiskFileItemFactory factory = new DiskFileItemFactory();
+            //2ã€åˆ›å»ºä¸€ä¸ªæ–‡ä»¶ä¸Šä¼ è§£æå™¨
+            ServletFileUpload upload = new ServletFileUpload(factory);
+            //ç›‘å¬æ–‡ä»¶ä¸Šä¼ è¿›åº¦
+            upload.setProgressListener(new ProgressListener(){
+                public void update(long pBytesRead, long pContentLength, int arg2) {
+                    System.out.println("æ–‡ä»¶å¤§å°ä¸ºï¼š" + pContentLength + ",å½“å‰å·²å¤„ç†ï¼š" + pBytesRead);
+                }
+            });
+            //è§£å†³ä¸Šä¼ æ–‡ä»¶åçš„ä¸­æ–‡ä¹±ç 
+            upload.setHeaderEncoding("UTF-8");
+            //3ã€åˆ¤æ–­æäº¤ä¸Šæ¥çš„æ•°æ®æ˜¯å¦æ˜¯ä¸Šä¼ è¡¨å•çš„æ•°æ®
+            if(!ServletFileUpload.isMultipartContent(request)){
+            	 System.out.println("isMultipartContent null ");
+            	//æŒ‰ç…§ä¼ ç»Ÿæ–¹å¼è·å–æ•°æ®
+            	return new WhispersResponse(ResponseEnum.UPLOADSUCCESS,null);
+            }
+            //4ã€ä½¿ç”¨ServletFileUploadè§£æå™¨è§£æä¸Šä¼ æ•°æ®ï¼Œè§£æç»“æœè¿”å›çš„æ˜¯ä¸€ä¸ªList<FileItem>é›†åˆï¼Œæ¯ä¸€ä¸ªFileItemå¯¹åº”ä¸€ä¸ªFormè¡¨å•çš„è¾“å…¥é¡¹
+            List<FileItem> list = upload.parseRequest(request);
+			File uploadDir = new File(partialPath);
+			if (!uploadDir.exists()){
+				uploadDir.mkdir();
+			}
+			list.forEach(f->{
+				if (f.isFormField()){
+					String name = f.getFieldName();
+					//è§£å†³æ™®é€šè¾“å…¥é¡¹çš„æ•°æ®çš„ä¸­æ–‡ä¹±ç é—®é¢˜
+					String value = "";
+					try {
+						value = f.getString("UTF-8");
+					} catch (UnsupportedEncodingException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					try {
+						value = new String(value.getBytes("iso8859-1"),"UTF-8");
+					} catch (UnsupportedEncodingException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					System.out.println(name + "=" + value);
+		       	} else {
+		       		// è·å–æ–‡ä»¶å
+		       		String fileName = f.getName();
+		       		//æ³¨æ„ï¼šä¸åŒçš„æµè§ˆå™¨æäº¤çš„æ–‡ä»¶åæ˜¯ä¸ä¸€æ ·çš„ï¼Œæœ‰äº›æµè§ˆå™¨æäº¤ä¸Šæ¥çš„æ–‡ä»¶åæ˜¯å¸¦æœ‰è·¯å¾„çš„ï¼Œå¦‚ï¼š  c:\a\b\1.txtï¼Œè€Œæœ‰äº›åªæ˜¯å•çº¯çš„æ–‡ä»¶åï¼Œå¦‚ï¼š1.txt
+                    //å¤„ç†è·å–åˆ°çš„ä¸Šä¼ æ–‡ä»¶çš„æ–‡ä»¶åçš„è·¯å¾„éƒ¨åˆ†ï¼Œåªä¿ç•™æ–‡ä»¶åéƒ¨åˆ†
+		       		fileName = fileName.substring(fileName.lastIndexOf("\\") + 1);
+		       		System.out.println("fileName " + fileName);
+		       		// è·å–æ‰©å±•å
+		       		String fileSuffix = "";
+		       		if (fileName.lastIndexOf(".") > 0) {
+		       			fileSuffix = fileName.substring(fileName.lastIndexOf("."));
+		       		}
+		       		System.out.println("fileSuffix " + fileSuffix);
+		       		// ä¿å­˜è·¯å¾„
+	            	File saveFile = new File(uploadDir + File.separator + fileName);
+					System.out.println("savePath " + saveFile.getPath());
+					try {
+						f.write(saveFile);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+	        	}
+			});
+		} catch (Exception ex) {
+			System.out.println("ex " + ex.toString());
+		} finally {
+		}
+		return new WhispersResponse(ResponseEnum.UPLOADSUCCESS,null);
 	}
 }

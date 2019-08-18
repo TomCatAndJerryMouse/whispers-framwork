@@ -1,5 +1,50 @@
 app.controller("indexCtr",function($scope){
+    // 顺序队列
+    $scope.arrayQueue = function ArrayQueue(){
 
+    	var proccess = false;
+
+    	var currentFile = "";
+
+        var arr = [];
+        // 获取当正在队列中上传的对象
+        this.getCurrentFile = function(){
+            return currentFile;
+        }
+        // 入队操作
+        this.isProccess = function(element){
+            return proccess;
+        }
+        // 设置队列是否在运行标识
+        this.setProccess = function(element){
+            proccess = element;
+        }
+        this.push = function(element){
+            arr.push(element);
+            return true;
+        }
+        // 出队操作
+        this.pop = function(){
+            currentFile= arr.shift();
+            return currentFile;
+        }
+        // 获取队首
+        this.getFront = function(){
+            return arr[0];
+        }
+        // 获取队尾
+        this.getRear = function(){
+            return arr[arr.length - 1]
+        }
+        // 清空队列
+        this.clear = function(){
+            arr = [];
+        }
+        // 获取队长
+        this.size = function(){
+            return arr.length;
+        }
+    }
     // 上传控件事件绑定
     $scope.bindEvent = function ()
     {
@@ -48,18 +93,24 @@ app.controller("indexCtr",function($scope){
 
         document.getElementById("sliceFileUploadFile").addEventListener("change",function (evn) {
             console.log("change");
-            var files;
-            if (evn.currentTarget.files) {
+            // 单个文件
+            if (evn.currentTarget.files.size)
+            {
+                $scope.uploadFilesQueue.push(evn.currentTarget.files);
+            } else {
                 var files = evn.currentTarget.files;
-            }
-            if ($scope.partialUpload){
-                $scope.singleUpload(files);
+                if (files&& files.length) {
+                    [].forEach.call(files,function(file) {
+                        if (file.size){
+                            $scope.uploadFilesQueue.push(file);
+                        }
+                    });
+                }
 			}
-			else
-			{
-                $scope.singleUpload(files);
+			// 如果队列不在运行中启动队列上传
+			if (!$scope.uploadFilesQueue.isProccess() && $scope.uploadFilesQueue.getFront()){
+                $scope.arrayQueueUpload();
 			}
-
         });
 
         document.getElementById("sliceFileUploadFile").addEventListener("blur",function () {
@@ -70,63 +121,77 @@ app.controller("indexCtr",function($scope){
             console.log("click");
         });
     }
+    // 队列实列
+    $scope.uploadFilesQueue = new $scope.arrayQueue();
 	// 绑定事件
     $scope.bindEvent();
 
 	// 分片上传开关
-    $scope.partialUpload = false;
+    $scope.partialUpload = true;
     // 当前已发送文件总大小
     $scope.alreadySendFileSize = 0;
     // 所有文件
     $scope.files = new Array();
     // 分割文件
-    $scope.prepareAndStartsliceFileUpload = function (files) {
+    $scope.arrayQueueUpload = function () {
+    	$scope.uploadFilesQueue.setProccess(true);
         $scope.alreadySendFileSize = 0;
         // 每一片定义为5M
         var sliceSize = 1024*1024*5;
-        if (!file)
-        {
-            console.log("file is null");
-            return;
+        // 如果队列中有对象且当前正在上传对象不为null,则进行下一个对象上传
+        while($scope.uploadFilesQueue.isProccess()) {
+        	$scope.uploadFilesQueue.setProccess($scope.uploadFilesQueue.getFront() ? true : false);
+            var file = $scope.uploadFilesQueue.pop();
+            if (!file) {
+                console.log("file is null");
+                return;
+            }
+            console.log("文件总大小   " + file.size);
+            // 如果文件大小小于5M直接执行单个文件上传
+            if (file.size < sliceSize)
+			{
+                console.log("执行单个上传");
+                $scope.singleUpload(file);
+			} else { //如果大于5M执行分片上传
+                console.log("执行分片上传");
+                // 向上取整计算文件总片数
+                var sliceCount = Math.ceil(file.size / sliceSize);
+                console.log("文件总片数  " + sliceCount);
+                // 判断是否把文件所有分段都上传完成
+                var isUploadComplete = false;
+                // 当前已发送了的分段
+                var currentSendSliceCount = 0;
+                // 已经发送了的文件片段数量小于总数量一直循环发送
+                while (currentSendSliceCount < sliceCount) {
+                    start = sliceSize * currentSendSliceCount;
+                    end = start + sliceSize;
+                    currentSendSliceCount ++;
+                    var currentSliceFile = file.slice(start, end);
+                    currentSliceFile.name = file.name;
+                    currentSliceFile.count = currentSendSliceCount;
+                    // 执行上传
+                    $scope.partialUpload(currentSliceFile, currentSendSliceCount);
+                }
+            }
         }
-        console.log("文件总大小   " + file.size);
-        // 向上取整计算文件总片数
-        var sliceCount = Math.ceil(file.size/sliceSize);
-        console.log("文件总片数  " + sliceCount);
-        // 判断是否把文件所有分段都上传完成
-        var isUploadComplete = false;
-        // 当前已发送了的分段
-        var currentSendSliceCount = 0;
-        // 已经发送了的文件片段数量小于总数量一直循环发送
-        while (currentSendSliceCount < sliceCount)
-        {
-            start = sliceSize * currentSendSliceCount;
-            end = start + sliceSize;
-            var currentSliceFile = 	file.slice(start,end);
-            currentSendSliceCount++;
-            // 执行上传
-            $scope.upload(currentSliceFile,currentSendSliceCount);
-        }
+    }
+
+    // 启动单个文件上传
+    $scope.singleUpload = function (file) {
+            var formDatas = $scope.uploadPlugin.construtsUploadData(file);
+            var xhr = $scope.uploadPlugin.construtsUploadRequest("http://127.0.0.1:8080/rest/upload/single");
+            $scope.uploadPlugin.startUpload(xhr,formDatas);
     }
 
     // 启动分片个片段上传
     $scope.partialUpload = function (currentSliceFile,currentSendSliceCount) {
-		console.log("当前已发送文件片数数量  " + currentSendSliceCount);
-		console.log("当前发送文件片段大小  " + currentSliceFile.size);
-		$scope.alreadySendFileSize += currentSliceFile.size;
-		console.log("已经发送文件总大小  " + $scope.alreadySendFileSize);
-		var formData = $scope.uploadPlugin.construtsUploadData(currentSliceFile);
-		var xhr = $scope.uploadPlugin.construtsUploadRequest("http://127.0.0.1:8080/rest/upload/single");
-		$scope.uploadPlugin.startUpload(xhr,formData);
-    }
-
-    // 启动分片上传
-    $scope.singleUpload = function (files) {
-        [].forEach.call(files,function(file) {
-            var formDatas = $scope.uploadPlugin.construtsUploadData(file);
-            var xhr = $scope.uploadPlugin.construtsUploadRequest("http://localhost:8080/rest/upload/single");
-            $scope.uploadPlugin.startUpload(xhr,formDatas);
-        });
+        console.log("当前已发送文件片数数量  " + currentSendSliceCount);
+        console.log("当前发送文件片段大小  " + currentSliceFile.size);
+        $scope.alreadySendFileSize += currentSliceFile.size;
+        console.log("已经发送文件总大小  " + $scope.alreadySendFileSize);
+        var formData = $scope.uploadPlugin.construtsUploadData(currentSliceFile);
+        var xhr = $scope.uploadPlugin.construtsUploadRequest("http://127.0.0.1:8080/rest/upload/partial");
+        $scope.uploadPlugin.startUpload(xhr,formData);
     }
 
 	// 上传组件
@@ -184,7 +249,7 @@ app.controller("indexCtr",function($scope){
 			console.log("uploadProgress");
 		},
 		// 上传完成
-		uploadComplete : function ()
+		uploadComplete : function (resp)
 		{
 			console.log("uploadComplete");
 		},
