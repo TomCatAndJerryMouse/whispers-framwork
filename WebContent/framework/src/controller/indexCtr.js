@@ -170,7 +170,7 @@ app.controller("indexCtr",function($scope){
                     currentSliceFile.name = file.name;
                     currentSliceFile.count = currentSendSliceCount;
                     // 执行上传
-                    $scope.partialUpload(currentSliceFile, currentSendSliceCount);
+                    $scope.partialUpload(currentSliceFile, currentSendSliceCount,sliceCount);
                 }
             }
         }
@@ -184,12 +184,12 @@ app.controller("indexCtr",function($scope){
     }
 
     // 启动分片个片段上传
-    $scope.partialUpload = function (currentSliceFile,currentSendSliceCount) {
+    $scope.partialUpload = function (currentSliceFile,currentSendSliceCount,sliceCount) {
         console.log("当前已发送文件片数数量  " + currentSendSliceCount);
         console.log("当前发送文件片段大小  " + currentSliceFile.size);
         $scope.alreadySendFileSize += currentSliceFile.size;
         console.log("已经发送文件总大小  " + $scope.alreadySendFileSize);
-        var formData = $scope.uploadPlugin.construtsUploadData(currentSliceFile);
+        var formData = $scope.uploadPlugin.construtsUploadData(currentSliceFile,currentSendSliceCount,sliceCount);
         var xhr = $scope.uploadPlugin.construtsUploadRequest("http://127.0.0.1:8080/rest/upload/partial");
         $scope.uploadPlugin.startUpload(xhr,formData);
     }
@@ -213,7 +213,7 @@ app.controller("indexCtr",function($scope){
 			return xhr;
 		},
 		// 构造上传请求
-		construtsUploadData : function (files)
+		construtsUploadData : function (files,count,sliceCount)
 		{
 			console.log("construtsUploadData");
             var form = new FormData();
@@ -228,7 +228,9 @@ app.controller("indexCtr",function($scope){
             // 单个文件
             else if (files.name)
 			{
-                form.append(files.name,files)
+                form.append(files.name,files);
+                form.append("totalPart",sliceCount);
+                form.append("currentPartId",count)
 			}
 			return form;
 		},

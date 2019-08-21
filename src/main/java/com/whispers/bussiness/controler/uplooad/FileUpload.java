@@ -1,9 +1,13 @@
 package com.whispers.bussiness.controler.uplooad;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
+import java.nio.channels.FileChannel;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -112,6 +116,8 @@ public class FileUpload {
 	public WhispersResponse partialUpload(HttpServletRequest request, HttpServletResponse response)
 	{
 		request = (HttpServletRequest)request;
+		 int  totalPart = 0;
+		 int  currentPart = 0;
 		try {
         	//1、创建一个DiskFileItemFactory工厂
             DiskFileItemFactory factory = new DiskFileItemFactory();
@@ -137,27 +143,34 @@ public class FileUpload {
 			if (!uploadDir.exists()){
 				uploadDir.mkdir();
 			}
-			list.forEach(f->{
+			// 获取分片信息
+			for (FileItem f:list){
 				if (f.isFormField()){
 					String name = f.getFieldName();
 					//解决普通输入项的数据的中文乱码问题
 					String value = "";
 					try {
 						value = f.getString("UTF-8");
+						if (name.equals("totalPart"))
+						{
+							totalPart = Integer.parseInt(value);
+						}
+						else if (name.equals("currentPartId"))
+						{
+							currentPart = Integer.parseInt(value);
+						}
 					} catch (UnsupportedEncodingException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-					try {
-						value = new String(value.getBytes("iso8859-1"),"UTF-8");
-					} catch (UnsupportedEncodingException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					System.out.println(name + "=" + value);
-		       	} else {
+		       	}
+			}
+			String savePath = "";
+			// 获取流
+			for (FileItem f:list){
+				if (!f.isFormField()){
 		       		// 获取文件名
-		       		String fileName = f.getName();
+					String fileName = f.getFieldName();
 		       		//注意：不同的浏览器提交的文件名是不一样的，有些浏览器提交上来的文件名是带有路径的，如：  c:\a\b\1.txt，而有些只是单纯的文件名，如：1.txt
                     //处理获取到的上传文件的文件名的路径部分，只保留文件名部分
 		       		fileName = fileName.substring(fileName.lastIndexOf("\\") + 1);
@@ -168,8 +181,9 @@ public class FileUpload {
 		       			fileSuffix = fileName.substring(fileName.lastIndexOf("."));
 		       		}
 		       		System.out.println("fileSuffix " + fileSuffix);
+		       		savePath = uploadDir + File.separator + fileName;
 		       		// 保存路径
-	            	File saveFile = new File(uploadDir + File.separator + fileName);
+	            	File saveFile = new File(savePath + "_" + currentPart);
 					System.out.println("savePath " + saveFile.getPath());
 					try {
 						f.write(saveFile);
@@ -177,8 +191,33 @@ public class FileUpload {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-	        	}
-			});
+		       	}
+			}
+			// 合并
+			if (totalPart == currentPart)
+			{
+				System.out.println("准备合并");
+			    File[] files = new File[totalPart];
+			    for (int i = 0; i < totalPart; i ++) {
+			        files[i] = new File(savePath+ "_" + (i+1));
+			    }
+			    File resultFile = new File(savePath);
+			    try {
+			        FileChannel resultFileChannel = new FileOutputStream(resultFile, true).getChannel();
+			        for (int i = 0; i < totalPart; i ++) {
+			            FileChannel blk = new FileInputStream(files[i]).getChannel();
+			            resultFileChannel.transferFrom(blk, resultFileChannel.size(), blk.size());
+			            blk.close();
+			        }
+			        resultFileChannel.close();
+			    } catch (FileNotFoundException e) {
+			        e.printStackTrace();
+			    }
+				for (int i = 0; i < totalPart; i ++) {
+			        files[i].delete();
+			    }
+			}
+
 		} catch (Exception ex) {
 			System.out.println("ex " + ex.toString());
 		} finally {
