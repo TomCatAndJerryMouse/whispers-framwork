@@ -4,3 +4,5 @@ target
 .settings
 build
 WebContent/classes
+WebContent/.gitignore
+WebContent/WEB-INF/.gitignore

@@ -19,7 +19,7 @@ public class ValidataFilter implements Filter{
 
 	public void doFilter(ServletRequest servletrequest, ServletResponse servletresponse, FilterChain filterchain)
 			throws IOException, ServletException {
-		System.out.println(Thread.currentThread().getName() + "  " + "ValidataFilter url is requered");
+//		System.out.println(Thread.currentThread().getName() + "  " + "ValidataFilter url is requered");
 		//获取session
 		HttpServletRequest httpRequest = (HttpServletRequest)servletrequest;
 		//获取session
@@ -33,7 +33,7 @@ public class ValidataFilter implements Filter{
 //            stringBuilder.append(new String(b, 0, readByte));
 //        }
 //		System.out.println("username" + stringBuilder.toString());
-		System.out.println(Thread.currentThread().getName() + "  " + httpRequest.getHeader("Referer") + " 	httpRequest.getSession().getId();" + 	httpRequest.getSession().getId());
+//		System.out.println(Thread.currentThread().getName() + "  " + httpRequest.getHeader("Referer") + " 	httpRequest.getSession().getId();" + 	httpRequest.getSession().getId());
 		//重定向
 		//转发
 		//打印seesionid

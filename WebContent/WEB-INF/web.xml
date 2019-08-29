@@ -21,12 +21,29 @@
 	<welcome-file-list>  
 	  <welcome-file>framework/app.html</welcome-file>  
 	</welcome-file-list>
-
 	
-<!-- SpringMVC分发器 -->
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+	<!--将Shiro的配置文件交给Spring监听器初始化 -->
+        <param-value>
+        	classpath:/spring-database.xml,
+        	classpath:/spring-shiro.xml,
+        	classpath:/springmvc-servlet.xml
+        </param-value>
+    </context-param>
+    
+	<listener>  
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>  
+    </listener>  
+    
+	<!-- SpringMVC分发器 -->
 	<servlet>
 		<servlet-name>springmvc</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>classpath:/springmvc-servlet.xml</param-value>
+		</init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 	<servlet-mapping>
@@ -37,6 +54,19 @@
         <servlet-name>springmvc</servlet-name>  
         <url-pattern>/</url-pattern>  
     </servlet-mapping>
+   	<!-- 	shiroFilter -->
+ 	<filter>
+        <filter-name>shiroFilter</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+        <init-param>
+            <param-name>targetFilterLifecycle</param-name>
+            <param-value>true</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>shiroFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
 	<!-- 字符集 过滤器  -->
 	<filter>
 		<description>字符集过滤器</description>
@@ -72,7 +102,8 @@
 		<filter-name>ValidateFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-
+	
+    
 	<!--会话超时时间/分钟 -->
 	<session-config>
 		<session-timeout>30</session-timeout>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:p="http://www.springframework.org/schema/p"
+		xmlns:context="http://www.springframework.org/schema/context"
+		xmlns:util="http://www.springframework.org/schema/util"
+		xmlns:mvc="http://www.springframework.org/schema/mvc"
+		xsi:schemaLocation="
+		  http://www.springframework.org/schema/beans
+		  http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+		  http://www.springframework.org/schema/util
+		  http://www.springframework.org/schema/util/spring-util-4.2.xsd
+		  http://www.springframework.org/schema/context 
+		  http://www.springframework.org/schema/context/spring-context-4.2.xsd
+		  http://www.springframework.org/schema/mvc
+		  http://www.springframework.org/schema/mvc/spring-mvc-4.2.xsd">
+<!--     凭证匹配器 -->
+<!--     <bean id="credentialsMatcher" class="utils.RetryLimitHashedCredentialsMatcher"> -->
+<!--         <constructor-arg ref="cacheManager" /> -->
+<!--         <property name="hashAlgorithmName" value="md5" /> -->
+<!--         <property name="hashIterations" value="2" /> -->
+<!--         <property name="storedCredentialsHexEncoded" value="true" /> -->
+<!--     </bean> -->
+	    <!-- Realm实现 -->
+	    <bean id="userRealm" class="com.whispers.framework.shiro.UserReaml">
+	    </bean>
+	    <!--     缓存管理器 使用Ehcache实现 -->
+	    <bean id="cacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
+	        <property name="cacheManagerConfigFile" value="classpath:ehcache.xml" />
+	    </bean>
+	    <!-- 安全管理器 -->
+	    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+        	<property name="cacheManager" ref="cacheManager"/>
+	        <property name="realm" ref="userRealm" />
+	    </bean> 
+		<!-- shiroFilter   -->
+		<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+			<property name="securityManager" ref="securityManager"/>
+	        <property name="filterChainDefinitions">
+	            <value>
+	                /** = anon
+	                /rest/user/login/** = anon
+	                /rest/user/validate/** = anon
+	            </value>
+	        </property>
+		</bean>
+</beans>

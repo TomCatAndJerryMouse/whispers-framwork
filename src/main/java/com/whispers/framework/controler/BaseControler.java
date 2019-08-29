@@ -1,10 +1,21 @@
 package com.whispers.framework.controler;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.whispers.framework.entity.User;
+import com.whispers.framework.response.ResponseEnum;
+import com.whispers.framework.response.WhispersResponse;
+
 
 
 /**
@@ -18,14 +29,27 @@ import org.springframework.web.bind.annotation.RequestMapping;
  *
  */
 @Controller
-@RequestMapping(value="/")
+@RequestMapping(value="/rest/")
 public class BaseControler
 {
-	@RequestMapping(value="/index")
-	public String main(HttpServletRequest request, HttpServletResponse response)
+	@RequestMapping(value="/validate")
+	@ResponseBody
+	public WhispersResponse validate(HttpServletRequest request, HttpServletResponse response)
 	{
-		System.out.println("index");
-		return "/ui/app";
+		Subject sb = SecurityUtils.getSubject();
+		List<User> userList = new ArrayList<User>();
+//		User user = (User)sb.getPrincipal();
+//		userList.add(user);
+		if (sb.isAuthenticated())
+		{
+			System.out.println("validate is OK.");
+			return new WhispersResponse(ResponseEnum.LOGINSUCCESS,userList);
+        }
+		else
+		{
+			System.out.println("validate LOGINFILAD.");
+        	return new WhispersResponse(ResponseEnum.LOGINFILAD,null);
+        }
 	}
 }
 

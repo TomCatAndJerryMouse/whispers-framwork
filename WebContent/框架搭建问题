@@ -3,3 +3,5 @@
 	<mvc:annotation-driven />
 	<mvc:resources mapping="/**" location="/"/>
 	路径为webapp根目录，**代表目录下所有静态资源包括子目录
+	
+2 shiro搭建参考：https://blog.csdn.net/Cs_hnu_scw/article/details/84865469
