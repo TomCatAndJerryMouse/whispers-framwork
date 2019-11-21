@@ -1,0 +1,7 @@
+
+{
+    "presets": [
+      "@babel/preset-env",
+      "@babel/preset-react" // 新增 react 配置
+    ]
+}
