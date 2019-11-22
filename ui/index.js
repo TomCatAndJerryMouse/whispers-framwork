@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import Layout from './src/components/Layout/index';
+import Home from './src/bussiness/Home/index';
+import "./index.less";
 
 ReactDOM.render (
-    <Layout/>,
+    <Home/>,
  document.getElementById("root"));

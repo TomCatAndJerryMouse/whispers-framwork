@@ -1,19 +1,16 @@
 // webpack配置文件，默认找webpack.config.js
 const path = require('path');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const htmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
-    devServer:{ 
-        hot:true,
-    },
     entry: {// 编译入口文件
        app: './index.js', 
     },
-    output: { // 编译输出
-        path: path.resolve(__dirname, '../public'),  // 输出目录参数
-        filename: "[name].bundle.js" // 输出文件名
+    resolve: {
+        extensions: ['*', '.js', '.jsx', '.css', '.less']
     },
-    mode:'production', // 模式
+
     module:{ // loader
         rules:[
             {// 加载css
@@ -49,6 +46,7 @@ module.exports = {
         ]
     },
     plugins:[ //插件
+        new CleanWebpackPlugin(),
         new htmlWebpackPlugin(
             {
                 template:"./index.html",//页面模板
@@ -59,7 +57,8 @@ module.exports = {
             }
         ),
     ],
-    resolve: {
-        extensions: ['*', '.js', '.jsx', '.css', '.less']
-    }
+    output: { // 编译输出
+        path: path.resolve(__dirname, '../public'),  // 输出目录参数
+        filename: "[name].bundle.js" // 输出文件名
+    },
 }
