@@ -1,8 +1,5 @@
 import React, { Component } from 'react';
-import Layout from  "../../components/Layout";
-import Header from  "../../components/Header";
-import Container from  "../../components/Container";
-import Footer from  "../../components/Footer";
+import "./index.less";
 class index extends Component {
     constructor(props) {
         super(props);
@@ -11,11 +8,7 @@ class index extends Component {
     }
     render() { 
         return (
-            <Layout>
-                <Header></Header>
-                <Container></Container>
-                <Footer></Footer>
-            </Layout>
+            <div className="layout">{this.props.children}</div>
         );
     }
 }

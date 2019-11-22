@@ -17,8 +17,8 @@ module.exports = {
     module:{ // loader
         rules:[
             {// 加载css
-                test: /\.css$/,
-                use: ["style-loader","css-loader"],
+                test: /\.css|\.less$/,
+                use: ["style-loader","css-loader","less-loader"],
             },
             { // 对一些对象作为文件来处理，然后可以返回它的URL。
                 test: /\.(gif|png|jpe?g|svg)$/i,

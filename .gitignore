@@ -3,6 +3,8 @@ target
 .classpath
 .settings
 build
+node_modules
+WebContent/.idea
 WebContent/classes
 WebContent/.gitignore
 WebContent/WEB-INF/.gitignore
