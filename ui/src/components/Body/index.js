@@ -6,7 +6,9 @@ class index extends Component {
         this.state = {  }
     }
     render() { 
-    return ( <div className={`container lycommon`}>{this.props.children}</div> );
+        return ( <div className="wsBody">
+            {this.props.children}
+        </div> );
     }
 }
  

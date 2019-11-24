@@ -1,9 +1,17 @@
 @import "../../../index.less";
 .layout {
-    position: fixed;
-    top: 0;
-    left: 0;
     width: @fullWidth;
     height: @fullHeight;
     background: @colorWhite;
+}
+
+.layout  .lycommon {
+    display: inline-block;
+}
+.layout  .sider {
+    width: 15%;
+    border-right: solid 1px @colorMain;
+}
+.layout  .container {
+    width: 85%;
 }

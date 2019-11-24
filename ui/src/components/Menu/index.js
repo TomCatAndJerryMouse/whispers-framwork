@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import "./index.less";
+import constants from "../../constants/index";
 
 export default class index extends Component {
     constructor(props) {
         super(props);
         this.state = { 
-            mode:props.mode,//横向显示还是纵向 vertical horizontal
+            mode:props.mode,// ? props.mode : constants.MENU_MODDE_HORIZONTAL,//横向显示还是纵向 vertical horizontal
             //data:props.mode
             data:[
                     {
@@ -33,12 +34,11 @@ export default class index extends Component {
          }
     }
     render() {
-        console.log(this.state.data);
         return (
             <div className="menu">
                 {
                     this.state.data.map((item)=>{
-                        return(<div key={item.key}>{item.name}</div>)
+                        return(<div key={item.key} className={"m"+this.props.mode}>{item.name}</div>)
                     })
                 }
             </div>
