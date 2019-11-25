@@ -6,9 +6,11 @@ class index extends Component {
         this.state = {  }
     }
     render() { 
-        return ( <div className="wsBody">
-            {this.props.children}
-        </div> );
+        return (
+             <div className="wsBody">
+                {this.props.children}
+            </div> 
+        );
     }
 }
  

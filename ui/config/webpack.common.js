@@ -4,6 +4,9 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const htmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
+    node: {
+        fs: "empty"
+    },
     entry: {// 编译入口文件
        app: './index.js', 
     },
@@ -42,6 +45,7 @@ module.exports = {
                 test: /\.(js|jsx)$/,
                 exclude: /node_modules/,
                 loader: ['babel-loader','eslint-loader'],　　　　　　//babel处理器，处理jsx/es6/es7
+                //loader: ['babel-loader'],
             }
         ]
     },
