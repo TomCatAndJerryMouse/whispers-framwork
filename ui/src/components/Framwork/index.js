@@ -6,9 +6,10 @@ import Footer from  "../Footer/index";
 import Menu from  "../../components/Menu/index";
 import constants from "../../constants/index";
 import {HashRouter,Route,Switch,hashHistory,Redirect} from "react-router-dom";
-
 import Home from "../../bussiness/Home/index";
 import Home1 from "../../bussiness/Home1/index";
+
+const Pages = require("./loader").default;
 const data = [
     {
         key:"home",
@@ -33,6 +34,7 @@ const data = [
  ];
 export default class index extends Component {
     render() {
+        console.log(Pages.keys());
         return (
             <HashRouter history={hashHistory}>
                 <Layout>
@@ -41,8 +43,10 @@ export default class index extends Component {
                     </Header>
                     <Body>
                         <Switch>
-                            <Route path='/home' component={Home}></Route>
-                            <Route path='/home1' component={Home1}></Route>
+                            {Pages.keys().map(key=>{
+                                const reoute = Pages(key,index).default;
+                                return <Route key={index} {...reoute}></Route>;
+                            })}
                             <Redirect to="/home" />
                         </Switch>
                     </Body>

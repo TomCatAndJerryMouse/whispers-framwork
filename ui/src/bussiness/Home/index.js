@@ -31,7 +31,6 @@ export default class index extends Component {
                     <Switch>
                         <Route path='/home/list' component={List}></Route>
                         <Route path='/home/setting' component={Setting}></Route>
-                        <Redirect to="/home/list" />
                     </Switch>
                 </Container>
             </Container>

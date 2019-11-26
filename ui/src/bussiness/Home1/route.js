@@ -1,4 +1,6 @@
 export default {
-    path:"menu",
-    component:require("./index"),
+    auth: true,
+    path: "/home1",
+    component: require("./index").default,
+    exact :true,
 }

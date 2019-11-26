@@ -1,4 +1,1 @@
-
-export default loaderPage = ()=>{
-    return  require("../bussiness/","route.js");
-}
+export default require.context('../../bussiness',true,/route.js$/);
