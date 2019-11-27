@@ -29,8 +29,8 @@ export default class index extends Component {
                 </Sider>
                 <Container>
                     <Switch>
-                        <Route path='/home/list' component={List}></Route>
-                        <Route path='/home/setting' component={Setting}></Route>
+                        <Route path='/home/list' exact="true" component={List}></Route>
+                        <Route path='/home/setting' exact="true" component={Setting}></Route>
                     </Switch>
                 </Container>
             </Container>

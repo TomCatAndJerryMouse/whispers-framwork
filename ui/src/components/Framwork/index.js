@@ -33,8 +33,10 @@ const data = [
     },
  ];
 export default class index extends Component {
+
     render() {
-        console.log(Pages.keys());
+        // 默认路由
+        let defualtPage = "";
         return (
             <HashRouter history={hashHistory}>
                 <Layout>
@@ -43,11 +45,19 @@ export default class index extends Component {
                     </Header>
                     <Body>
                         <Switch>
-                            {Pages.keys().map(key=>{
-                                const reoute = Pages(key,index).default;
-                                return <Route key={index} {...reoute}></Route>;
-                            })}
-                            <Redirect to="/home" />
+                            { 
+                                Pages.keys().map((key,index)=>{
+                                    const route = Pages(key).default;
+                                    if (route.defaultPage){
+                                        defualtPage = <Redirect key={"red_"+index} exact="true" from="/" to={route.path}/>
+                                    }
+                                    console.log(route);
+                                    return <Route key={index} {...route}></Route>;
+                                })
+                            }
+                            {
+                                defualtPage
+                            } 
                         </Switch>
                     </Body>
                     <Footer>CopyRight@2019</Footer>
