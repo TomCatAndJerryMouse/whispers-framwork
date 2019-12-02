@@ -1,1 +1,0 @@
-export default require.context('../../bussiness',true,/route.js$/);

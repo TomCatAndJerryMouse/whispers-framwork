@@ -3,10 +3,8 @@ import Container from  "../../components/Container/index";
 import Sider from  "../../components/Sider/index";
 import Menu from  "../../components/Menu/index";
 import constants from "../../constants/index";
-import {Route,Switch,Redirect} from "react-router-dom";
-
-import  List from "./list/index";
-import  Setting from "./Setting/index";
+import RouteLoader from "../../components/RouteLoader"
+import Pages from "./route";
 
 const data = [
     {
@@ -28,10 +26,7 @@ export default class index extends Component {
                     <Menu data={data} mode={constants.MENU_MODDE_VERTICAL}/>
                 </Sider>
                 <Container>
-                    <Switch>
-                        <Route path='/home/list' exact="true" component={List}></Route>
-                        <Route path='/home/setting' exact="true" component={Setting}></Route>
-                    </Switch>
+                     <RouteLoader pages={Pages}/>
                 </Container>
             </Container>
         )

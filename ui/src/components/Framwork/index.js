@@ -5,11 +5,10 @@ import Body from  "../Body/index";
 import Footer from  "../Footer/index";
 import Menu from  "../../components/Menu/index";
 import constants from "../../constants/index";
-import {HashRouter,Route,Switch,hashHistory,Redirect} from "react-router-dom";
-import Home from "../../bussiness/Home/index";
-import Home1 from "../../bussiness/Home1/index";
+import {HashRouter,hashHistory} from "react-router-dom";
+import RouteLoader from "../../components/RouteLoader"
 
-const Pages = require("./loader").default;
+import Pages from "./route";
 const data = [
     {
         key:"home",
@@ -33,10 +32,7 @@ const data = [
     },
  ];
 export default class index extends Component {
-
     render() {
-        // 默认路由
-        let defualtPage = "";
         return (
             <HashRouter history={hashHistory}>
                 <Layout>
@@ -44,21 +40,7 @@ export default class index extends Component {
                         <Menu data={data} mode={constants.MENU_MODDE_HORIZONTAL} />
                     </Header>
                     <Body>
-                        <Switch>
-                            { 
-                                Pages.keys().map((key,index)=>{
-                                    const route = Pages(key).default;
-                                    if (route.defaultPage){
-                                        defualtPage = <Redirect key={"red_"+index} exact="true" from="/" to={route.path}/>
-                                    }
-                                    console.log(route);
-                                    return <Route key={index} {...route}></Route>;
-                                })
-                            }
-                            {
-                                defualtPage
-                            } 
-                        </Switch>
+                        <RouteLoader pages={Pages}/>
                     </Body>
                     <Footer>CopyRight@2019</Footer>
                 </Layout>

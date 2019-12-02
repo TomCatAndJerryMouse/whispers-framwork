@@ -2,8 +2,12 @@
 .menu div {
     text-align: center;
 }
-.menu a:hover, .menu a:visited, .menu a:link, .menu a:active  {
+.menu a:link, .menu a:active  {
     text-decoration:none;
+    color:@colorFont;
+}
+ .menu a:hover{
+    color:@colorFontSelect;
 }
 .menu .mvertical {
     padding: 20px;
@@ -16,6 +20,6 @@
 
 .menu > div:hover {
     cursor: pointer;
-    text-shadow: 0 0 7px @colorWhite;
+    text-shadow: 0 0 7px @colorFontSelect;
     background: @colorMainDeep;
 }
