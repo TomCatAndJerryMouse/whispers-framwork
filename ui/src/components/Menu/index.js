@@ -11,14 +11,35 @@ export default class index extends Component {
             onclick:props.onclick,
          }
     }
+    selectItem (e) { 
+        if (this.props.isHashJump)
+        {
+            window.location.href="#" + e.target.getAttribute("to");
+        }
+        else
+        {
+            window.location.href=e.target.getAttribute("to");
+        }
+      
+    }
+    hasIcon()
+    {
+        if (this.props.hasIcon)
+        {
+            return (
+                <div>Wisperssdsdsdsds</div>
+            )
+        }
+    }
     render() {
         return (
             <div className="menu">
                 {
+                    this.hasIcon(),
                     this.state.data.map((item)=>{
                         return(
-                        <div key={item.key} className={"m"+this.props.mode}>
-                            <Link to={item.url}>{item.name}</Link>
+                        <div key={item.key} className={"m"+this.props.mode} to={item.url} onClick={this.selectItem.bind(this)}>
+                            {item.name}
                         </div>)
                     })
                 }

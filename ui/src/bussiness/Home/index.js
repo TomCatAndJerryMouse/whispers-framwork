@@ -23,10 +23,10 @@ export default class index extends Component {
         return (
             <Container>
                 <Sider>
-                    <Menu data={data} mode={constants.MENU_MODDE_VERTICAL}/>
+                    <Menu data={data} mode={constants.MENU_MODDE_VERTICAL} isHashJump={true}/>
                 </Sider>
                 <Container>
-                     <RouteLoader pages={Pages}/>
+                    <RouteLoader pages={Pages}/>
                 </Container>
             </Container>
         )
