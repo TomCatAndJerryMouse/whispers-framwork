@@ -1,18 +1,20 @@
 @import "../../../index.less";
 .menu div {
     text-align: center;
-}
-.menu .mvertical {
+    vertical-align: bottom;
     padding: 20px;
+    line-height:30px;
+}
+.menu .title {
+    font-size: 28px;
 }
 
 .menu .mhorizontal{
     display: inline-block;
-    padding: 20px;
  }
-
-.menu > div:hover {
+ 
+.menu > .item:hover {
     cursor: pointer;
-    text-shadow: 0 0 7px @colorFontSelect;
+    color: @colorFontOver;
     background: @colorMainDeep;
 }

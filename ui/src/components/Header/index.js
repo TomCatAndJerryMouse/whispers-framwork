@@ -12,7 +12,6 @@ class index  extends Component {
         return (
             <div className="header">
                 <Row>
-                    {/* <Col col={1}>Whispers </Col> */}
                     <Col col={12}>{this.props.children}</Col>
                 </Row>
             </div>

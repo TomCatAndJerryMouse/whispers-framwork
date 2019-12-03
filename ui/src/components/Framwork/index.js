@@ -37,7 +37,7 @@ export default class index extends Component {
             <HashRouter history={hashHistory}>
                 <Layout>
                     <Header>
-                        <Menu data={data} mode={constants.MENU_MODDE_HORIZONTAL} isHashJump={true} hasIcon={true}/>
+                        <Menu data={data} mode={constants.MENU_MODDE_HORIZONTAL} isHashJump={true} hasIcon={true} title={"Wispers"}/>
                     </Header>
                     <Body>
                         <RouteLoader pages={Pages}/>

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import {Link} from "react-router-dom";
 import "./index.less";
 
 export default class index extends Component {
@@ -27,7 +26,7 @@ export default class index extends Component {
         if (this.props.hasIcon)
         {
             return (
-                <div>Wisperssdsdsdsds</div>
+                <div className={`title ${"m"+this.props.mode}`}>{this.props.title}</div>
             )
         }
     }
@@ -35,10 +34,12 @@ export default class index extends Component {
         return (
             <div className="menu">
                 {
-                    this.hasIcon(),
+                    this.hasIcon()
+                }
+                {
                     this.state.data.map((item)=>{
                         return(
-                        <div key={item.key} className={"m"+this.props.mode} to={item.url} onClick={this.selectItem.bind(this)}>
+                        <div key={item.key} className={`item ${"m"+this.props.mode}`} to={item.url} onClick={this.selectItem.bind(this)}>
                             {item.name}
                         </div>)
                     })
