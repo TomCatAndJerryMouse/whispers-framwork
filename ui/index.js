@@ -5,6 +5,6 @@ import PortalFramwork from './src/components/PortalFramwork/index';
 import "./index.less";
 
 ReactDOM.render (
-    // <Framwork/>,
-    <PortalFramwork/>,
+    <Framwork/>,
+    // <PortalFramwork/>,
  document.getElementById("root"));

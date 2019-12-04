@@ -1,49 +1,38 @@
 import React, { Component } from "react";
-import Layout from  "../Layout/index";
-import Header from  "../Header/index";
-import Body from  "../Body/index";
-import Footer from  "../Footer/index";
-import Menu from  "../../components/Menu/index";
-import constants from "../../constants/index";
-import {HashRouter,hashHistory} from "react-router-dom";
-import RouteLoader from "../../components/RouteLoader"
+import {HashRouter,hashHistory,Route,Redirect} from "react-router-dom";
+import Login from "../../common/Login/index";
+import Main from "./main";
 
-import Pages from "./route";
-const data = [
-    {
-        key:"home",
-        name:"Home",
-        url:"/home",
-    },
-    {
-        key:"home1",
-        name:"Home1",
-        url:"/home1",
-    },
-    {
-        key:"home2",
-        name:"Home2",
-        url:"/home2",
-    },
-    {
-        key:"home3",
-        name:"Home3",
-        url:"/home3",
-    },
- ];
+/**
+ * 框架主入口，有判断是否登录逻辑
+ */
 export default class index extends Component {
+    constructor(props){
+        super(props);
+        this.state = {
+            use:{name:"admin"},
+        }
+    }
+    // 通过鉴权信息渲染界面
+    renderComponent()
+    {
+        if (this.state.user) {
+            return (
+                    <Main/>
+            )
+        } 
+        else 
+        {
+            return (
+                <Redirect from={"/*"} to={"/"}/>,
+                <Route path="/" component={Login}/>
+            )
+        }
+    }
     render() {
         return (
             <HashRouter history={hashHistory}>
-                <Layout>
-                    <Header>
-                        <Menu data={data} mode={constants.MENU_MODDE_HORIZONTAL} isHashJump={true} hasIcon={true} title={"Wispers"}/>
-                    </Header>
-                    <Body>
-                        <RouteLoader pages={Pages}/>
-                    </Body>
-                    <Footer>CopyRight@2019</Footer>
-                </Layout>
+                {this.renderComponent()}
             </HashRouter>
         )
     }

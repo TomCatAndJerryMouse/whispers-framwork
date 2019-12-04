@@ -6,8 +6,9 @@ class index extends Component {
         this.state = {  }
     }
     render() { 
+        console.log("ssss"+this.props.width);
         return ( 
-            <div className="button">
+            <div className="button" style={{width:this.props.width}}>
                 {this.props.children}
             </div>
          );
