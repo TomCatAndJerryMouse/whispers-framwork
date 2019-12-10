@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import Row from "../../components/Row/index";
-import Col from "../../components/Column/index";
+import {Row,Column} from "../index";
 import "./index.less";
 class index extends Component {
     constructor(props) {
@@ -11,7 +10,7 @@ class index extends Component {
         return ( 
             <div className="footer">
                 <Row>
-                    <Col col={12}>{this.props.children}</Col>
+                    <Column col={12}>{this.props.children}</Column>
                 </Row>
             </div> 
         );

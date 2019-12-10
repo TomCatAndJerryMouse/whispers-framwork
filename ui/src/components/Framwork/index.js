@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import {HashRouter,hashHistory,Route,Redirect} from "react-router-dom";
-import Login from "../../common/Login/index";
-import Main from "./main";
+import Login from "./Login/index";
+import Main from "./Main/index";
 
 /**
  * 框架主入口，有判断是否登录逻辑
@@ -10,7 +10,7 @@ export default class index extends Component {
     constructor(props){
         super(props);
         this.state = {
-            use:{name:"admin"},
+            user:{name:"admin"},
         }
     }
     // 通过鉴权信息渲染界面

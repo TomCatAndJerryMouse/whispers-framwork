@@ -1,31 +1,33 @@
 import React, { Component } from "react";
-import Layout from  "../Layout/index";
-import Header from  "../Header/index";
-import Body from  "../Body/index";
-import Footer from  "../Footer/index";
-import Menu from  "../Menu/index";
-import constants from "../../constants/index";
-import RouteLoader from "../RouteLoader";
+import {
+    Body,
+    Footer,
+    Layout,
+    Menu,
+    Header,
+    RouteLoader,
+} from "../../index";
+import constants from "../../constants";
 import Pages from "./route";
 const data = [
     {
         key:"home",
-        name:"Home",
+        name:"功能",
         url:"/home",
     },
     {
         key:"home1",
-        name:"Home1",
+        name:"功能",
         url:"/home1",
     },
     {
         key:"home2",
-        name:"Home2",
+        name:"功能",
         url:"/home2",
     },
     {
         key:"home3",
-        name:"Home3",
+        name:"功能",
         url:"/home3",
     },
  ];

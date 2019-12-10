@@ -9,12 +9,12 @@ import Pages from "./route";
 const data = [
     {
         key:"home_list",
-        name:"List",
+        name:"功能",
         url:"/home/list",
     },
     {
         key:"home_setting",
-        name:"Setting",
+        name:"功能",
         url:"/home/setting",
     }
  ];

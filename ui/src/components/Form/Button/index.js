@@ -1,15 +1,18 @@
 import "./index.less";
 import React, { Component } from 'react';
+/**
+ * 按钮组件
+ */
 class index extends Component {
     constructor(props) {
         super(props);
         this.state = {  }
     }
     render() { 
-        console.log("ssss"+this.props.width);
+        const {children,width,onClick} = this.props;
         return ( 
-            <div className="button" style={{width:this.props.width}}>
-                {this.props.children}
+            <div className="button" style={{width}} onClick={onClick}>
+                {children}
             </div>
          );
     }
