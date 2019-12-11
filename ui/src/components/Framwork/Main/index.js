@@ -8,6 +8,8 @@ import {
     RouteLoader,
 } from "../../index";
 import constants from "../../constants";
+import * as i18nloader from "../../i18nloader";
+
 import Pages from "./route";
 const data = [
     {
