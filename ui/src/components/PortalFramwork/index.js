@@ -48,9 +48,7 @@ export default class index extends Component {
         return (
             <HashRouter history={hashHistory}>
                 <Layout>
-                    <Header>
-                        <Menu data={data} mode={constants.MENU_MODDE_HORIZONTAL} isHashJump={true} hasIcon={true} title={"某某有限公司"}/>
-                    </Header>
+                    <Header data={data} title={"某某有限公司"}/>
                     <Row>
                         <Column col={12}>
                             <img src={require("../../img/bg1.jpg")}/>
