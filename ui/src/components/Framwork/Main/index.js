@@ -1,20 +1,19 @@
 import React, { Component } from "react";
+import Pages from "./route";
 import {
     Body,
     Footer,
     Layout,
-    Menu,
     Header,
     RouteLoader,
+    LocaleProvider,
 } from "../../index";
-import constants from "../../constants";
-import * as i18nloader from "../../i18nloader";
-
-import Pages from "./route";
+import * as nls from "./nls";
+const i18n = LocaleProvider.loaderNls(nls);
 const data = [
     {
         key:"home",
-        name:"功能",
+        name:i18n.FUNCTION,
         url:"/home",
     },
     {
@@ -38,11 +37,10 @@ const data = [
  */
 export default class index extends Component {
     render() {
+        console.log("render main");
         return (
             <Layout>
-                <Header>
-                    <Menu data={data} mode={constants.MENU_MODDE_HORIZONTAL} isHashJump={true} hasIcon={true} title={"Wispers"}/>
-                </Header>
+                <Header data={data} title="Wispers"/>
                 <Body>
                     <RouteLoader pages={Pages}/>
                 </Body>

@@ -38,6 +38,7 @@ import Menu from "./Menu/index";
 import RouteLoader from "./RouteLoader/index";
 import Row from "./Row/index";
 import Sider from "./Sider/index";
+import * as LocaleProvider from "./LocaleProvider/index";
 export {
     Body,
     Column,
@@ -51,4 +52,5 @@ export {
     RouteLoader,
     Row,
     Sider,
+    LocaleProvider,
 };

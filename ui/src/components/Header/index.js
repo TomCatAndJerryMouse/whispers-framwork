@@ -1,12 +1,17 @@
 import React, { Component } from 'react';
-import {
-    Row,
-    Column,
-} from "../index";
 import "./index.less";
-
-class index  extends Component {
+import {
+    Menu,
+    LocaleProvider,
+} from "../index";
+import constants from "../../constants";
+import * as nls from "./nls";
+let i18n="";
+let _locale="";
+export default class index  extends Component {
     constructor(props) {
+        i18n = LocaleProvider.loaderNls(nls);
+        _locale = LocaleProvider._locale;
         super(props);
         this.state = {  }
     }
@@ -30,24 +35,35 @@ class index  extends Component {
         window.location.href = href;
         window.location.reload(true);
     }
-
+    displayLangOption(_locale)
+    {
+        {
+            if (_locale==="zh")
+            {
+                return (
+                    <div onClick={()=> this.changeLang('en')}>
+                        {i18n["LANG_EN"]}
+                    </div>
+                )
+            }
+            else
+            {
+                return (
+                    <div onClick={()=> this.changeLang('zh')}>
+                        {i18n["LANG_ZH"]}
+                    </div>
+                )
+            }
+        }
+    }
     render() { 
         return (
             <div className="header">
-                <Row>
-                    <Column col={10}>{this.props.children}</Column>
-                    <Column col={2}>
-                        <div onClick={()=> this.changeLang('zh')}>
-                            中文
-                        </div>
-                        <div onClick={()=> this.changeLang('en')}>
-                            English
-                        </div>
-                    </Column>
-                </Row>
+                <Menu data={this.props.data} mode={constants.MENU_MODDE_HORIZONTAL} isHashJump={true} hasIcon={true} title={this.props.title}/>
+                <div className="dropDown">
+                    {this.displayLangOption(_locale)}
+                </div>
             </div>
         );
     }
 }
- 
-export default index;
