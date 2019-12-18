@@ -38,7 +38,7 @@
 			<property name="securityManager" ref="securityManager"/>
 	        <property name="filterChainDefinitions">
 	            <value>
-	                /** = anon
+	              	/** = anon
 	                /rest/user/login/** = anon
 	                /rest/user/validate/** = anon
 	            </value>

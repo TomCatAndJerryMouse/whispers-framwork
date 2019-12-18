@@ -1,7 +1,7 @@
 import "../index.less";
 import React, { Component } from 'react';
 /**
- * 按钮组件
+ * 表单组件
  */
 class index extends Component {
     constructor(props) {
@@ -9,11 +9,9 @@ class index extends Component {
         this.state = {  }
     }
     render() { 
-        const {children,width,onClick} = this.props;
+        const {id,width,onClick,type,placeholder} = this.props;
         return ( 
-            <div className="wButton" style={{width}} onClick={onClick}>
-                {children}
-            </div>
+            <input id={id} className="wIput" style={{width}} placeholder={placeholder} onClick={onClick} type={type}/>
          );
     }
 }

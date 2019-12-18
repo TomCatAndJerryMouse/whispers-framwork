@@ -6,7 +6,7 @@ export default class index extends Component {
         super(props);
         this.state = { 
             mode:props.mode,// ? props.mode : constants.MENU_MODDE_HORIZONTAL,//横向显示还是纵向 vertical horizontal
-            data:props.data,
+            data:props.data ? props.data : [],
             onclick:props.onclick,
          }
     }

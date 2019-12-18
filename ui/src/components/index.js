@@ -26,11 +26,11 @@
 //     return ss;
 // }
 import Body from "./Body/index";
-//import Button from "./Button/index";
 import Column from "./Column/index";
 import Container from "./Container/index";
 import Footer from "./Footer/index";
 import Button from "./Form/Button/index";
+import Input from "./Form/Input/index";
 import Framwork from "./Framwork/index";
 import Header from "./Header/index";
 import Layout from "./Layout/index";
@@ -45,6 +45,7 @@ export {
     Container,
     Footer,
     Button,
+    Input,
     Framwork,
     Header,
     Layout,
