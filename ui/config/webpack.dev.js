@@ -1,5 +1,7 @@
 const merge = require("webpack-merge");
 const common = require("./webpack.common.js")
+const proxyCfg = require('./proxy.js');
+console.log(proxyCfg)
 const path = require('path');
 
 module.exports = merge (common,{
@@ -8,5 +10,8 @@ module.exports = merge (common,{
         hot:true,
         contentBase:path.join(__dirname,"public"),
         compress:true,
+        proxy: {'/rest/':{ 
+            target:'http://127.0.0.1:8080',
+        }}
     },
 })

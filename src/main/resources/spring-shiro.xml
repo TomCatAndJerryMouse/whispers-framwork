@@ -24,7 +24,7 @@
 	    <!-- Realm实现 -->
 	    <bean id="userRealm" class="com.whispers.framework.shiro.UserReaml">
 	    </bean>
-	    <!--     缓存管理器 使用Ehcache实现 -->
+    	<!-- 缓存管理器 使用Ehcache实现 -->
 	    <bean id="cacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
 	        <property name="cacheManagerConfigFile" value="classpath:ehcache.xml" />
 	    </bean>

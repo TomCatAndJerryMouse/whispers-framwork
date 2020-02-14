@@ -11,12 +11,27 @@ import {
     LocaleProvider,
 } from "../../index";
 import * as nls from "../nls";
+import { connect } from 'react-redux'
+import {
+    loginSaga,
+} from "../../../actions/index"
 let i18n="";
 let _locale="";
+// 建立一个从（外部的）state对象到（展示型组件的）props对象的映射关系
+const mapStateToProps = state => ({
+    state:state
+})
+
+// 建立展现型组件的参数到store.dispatch方法的映射
+const mapDispatchToProps = dispatch => ({
+    login:(data,callback)=>{
+        dispatch(loginSaga(data))
+    },
+})
 /**
  * 登录页面
  */
-export default class index extends Component {
+class index extends Component {
 
     constructor(props) {
         i18n = LocaleProvider.loaderNls(nls);
@@ -29,8 +44,9 @@ export default class index extends Component {
     }
 
     login(){
-
+        this.props.login({"username":"admin","pwd":"admin"});
     }
+
     render() {
         return (
             <Layout>
@@ -57,3 +73,4 @@ export default class index extends Component {
         )
     }
 }
+export default connect(mapStateToProps,mapDispatchToProps)(index);
