@@ -12,7 +12,7 @@ function* login(){
     yield takeEvery(loginSaga().type,function* login(args){
         let data = {
             username:"admin",
-            pwd:"admin"
+            password:"admin"
         }
         fetch(cfg.login,data,"POST").then((data)=>{
             if (data.code === "00001")
@@ -32,7 +32,7 @@ function* login(){
   */
 function* validate(){
     console.log("validate");
-    takeEvery(validateSaga().type,function* validate(args){
+    yield takeEvery(validateSaga().type,function* validate(args){
         fetch(cfg.validate).then((data)=>{
             if (data.code === "00001")
             {

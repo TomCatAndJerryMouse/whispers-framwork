@@ -5,8 +5,10 @@ import java.util.List;
 public class WhispersResponse {
 	
 	// 响应类型
+	private String statusCode;
+	// 响应类型
 	private String type;
-	// 描述
+	// 状态码
 	private String code;
 	// 描述
 	private String desc;
@@ -14,12 +16,21 @@ public class WhispersResponse {
 	private List<?> datas;
 	
 	public WhispersResponse(ResponseEnum responseenum, List<?> datas) {
+		this.statusCode = responseenum.getStatusCode();
 		this.type = responseenum.getType();
 		this.code = responseenum.getCode();
 		this.desc = responseenum.getDesc();
 		this.datas = datas;
 	}
 	
+	public String getStatusCode() {
+		return statusCode;
+	}
+
+	public void setStatusCode(String statusCode) {
+		this.statusCode = statusCode;
+	}
+
 	public String getType() {
 		return type;
 	}

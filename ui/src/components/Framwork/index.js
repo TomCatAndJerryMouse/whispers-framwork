@@ -36,8 +36,9 @@ class index extends Component {
             isLogin:false,
         }
     }
-    
+
     componentWillMount(){
+        console.log("validate");
         this.props.validate();
     }
     // 通过鉴权信息渲染界面

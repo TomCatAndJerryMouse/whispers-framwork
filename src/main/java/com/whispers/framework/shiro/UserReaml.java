@@ -60,15 +60,19 @@ public class UserReaml extends AuthorizingRealm {
 		System.out.println("CCCCCCC");
 		User user = new User();
 		System.out.println("DDDDDDD");
+		System.out.println(authenticationtoken.getCredentials());
+		System.out.println(authenticationtoken.getPrincipal());
         // 把token转换成User对象  
 		UsernamePasswordToken usernamepasswordtoken = (UsernamePasswordToken)authenticationtoken; 
 		user.setUsername(usernamepasswordtoken.getUsername());
-		user.setPwd(String.valueOf(usernamepasswordtoken.getPassword()));  
+		System.out.println(usernamepasswordtoken.getPassword());
+//		user.setPassword(String.valueOf(usernamepasswordtoken.getPassword()));  
+		user.setPassword(usernamepasswordtoken.getPassword()); 
 		boolean isHasUser = userService.checkLogin(user);
 		if (isHasUser)
 		{
 			System.out.println("DDDDDDD");
-			return new SimpleAuthenticationInfo(authenticationtoken.getPrincipal(), user.getPwd(), this.getName());
+			return new SimpleAuthenticationInfo(authenticationtoken.getPrincipal(), user.getPassword(), this.getName());
 		}
 		else
 		{

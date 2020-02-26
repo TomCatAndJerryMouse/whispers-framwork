@@ -1,4 +1,6 @@
 package com.whispers.framework.controler;
+import java.util.Arrays;
+
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.shiro.SecurityUtils;
@@ -25,12 +27,16 @@ import com.whispers.framework.service.UserService;
 public class UserControler{
 	@Autowired
 	private UserService userService;
+	/**
+	 * 登录接口
+	 * @param user 用户对象
+	 * @param resp 响应
+	 * @return
+	 */
 	@RequestMapping(value="/login")
 	@ResponseBody
-	public WhispersResponse login(@RequestBody User user,HttpServletResponse resp)
-	{
-		System.out.println("User = " + user.toString());
-		UsernamePasswordToken token = new UsernamePasswordToken(user.getUsername(),user.getPwd());
+	public WhispersResponse login(@RequestBody User user,HttpServletResponse resp){
+		UsernamePasswordToken token = new UsernamePasswordToken(user.getUsername(),user.getPassword());
 		Subject subject = SecurityUtils.getSubject();
         try {
             subject.login(token);
@@ -49,5 +55,18 @@ public class UserControler{
         }
 			System.out.println("login success");
 			return new WhispersResponse(ResponseEnum.LOGINSUCCESS,null);
+	}
+	
+	/**
+	 * 注册用户接口
+	 * @param user 用户对象
+	 * @param resp 响应
+	 * @return
+	 */
+	@RequestMapping(value="/regist")
+	@ResponseBody
+	public WhispersResponse register(@RequestBody User user,HttpServletResponse resp) {
+		userService.regist(user);
+		return new WhispersResponse(ResponseEnum.REGISTSUCCESS, null);
 	}
 }

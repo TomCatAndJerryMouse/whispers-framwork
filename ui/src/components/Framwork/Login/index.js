@@ -44,7 +44,7 @@ class index extends Component {
     }
 
     login(){
-        this.props.login({"username":"admin","pwd":"admin"});
+        this.props.login({"username":"admin","password":"admin"});
     }
 
     render() {

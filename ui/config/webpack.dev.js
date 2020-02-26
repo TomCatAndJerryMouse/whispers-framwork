@@ -1,7 +1,6 @@
 const merge = require("webpack-merge");
 const common = require("./webpack.common.js")
 const proxyCfg = require('./proxy.js');
-console.log(proxyCfg)
 const path = require('path');
 
 module.exports = merge (common,{

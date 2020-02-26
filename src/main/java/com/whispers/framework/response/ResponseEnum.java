@@ -2,16 +2,28 @@ package com.whispers.framework.response;
 
 public enum ResponseEnum {
 	// 登录成功
-	LOGINSUCCESS("SUCC","00001","Login Success."),
+	LOGINSUCCESS("200","SUCC","00001","Login Success."),
+	// 登录成功
+	REGISTSUCCESS("200","SUCC","00002","Regist Success."),
 	// 登录失败，用户名或密码错误
-	LOGINFILAD("ERROE","10002","Login filad.");
+	LOGINFILAD("200","ERROE","10002","Login filad.");
+	// 响应枚举类型，状态吗
+	private String statusCode = "200";
 	// 响应枚举类型，标识业务是否成功或者失败
 	private String type;
-	// 响应枚举，状态码
+	// 响应枚举，消息编码
 	private String code;
 	// 响应枚举描述
 	private String desc;
 	
+	public String getStatusCode() {
+		return statusCode;
+	}
+
+	public void setStatusCode(String statusCode) {
+		this.statusCode = statusCode;
+	}
+
 	public String getType() {
 		return type;
 	}
@@ -36,7 +48,8 @@ public enum ResponseEnum {
 		this.desc = desc;
 	}
 
-	ResponseEnum(String type,String code, String desc) {
+	ResponseEnum(String statusCode, String type,String code, String desc) {
+		this.statusCode = statusCode;
 		this.type = type;
 		this.code = code;
 		this.desc = desc;

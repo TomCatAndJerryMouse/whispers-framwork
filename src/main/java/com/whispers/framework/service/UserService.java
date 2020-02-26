@@ -15,11 +15,16 @@ public class UserService
 {
 	@Autowired
 	private UserDao userDao;
+	/**
+	 * 登录校验
+	 * @param user
+	 * @return
+	 */
 	public boolean checkLogin(User user)
 	{
 		System.out.println("checkLogin");
 		User newUser = userDao.getUser(user);
-		if (null != newUser && newUser.getUsername().equals(user.getUsername()) && newUser.getPwd().equals(user.getPwd()))
+		if (null != newUser && newUser.getUsername().equals(user.getUsername()) && newUser.getPassword().equals(user.getPassword()))
 		{
 			System.out.println("dao success");
 			return true;
@@ -29,6 +34,15 @@ public class UserService
 			System.out.println("dao failt!");
 			return false;
 		}
+	}
+	
+	/**
+	 * 注册
+	 */
+	public void regist(User user) {
+		String pwd = String.valueOf(user.getPassword());
+		//TODO 加密密码储存用户信息
+		System.out.println(user.getPrincipal()+"   "+ pwd);
 	}
 }
 

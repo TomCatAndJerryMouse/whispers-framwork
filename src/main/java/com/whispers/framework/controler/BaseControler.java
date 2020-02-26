@@ -38,8 +38,9 @@ public class BaseControler
 	{
 		Subject sb = SecurityUtils.getSubject();
 		List<User> userList = new ArrayList<User>();
-//		User user = (User)sb.getPrincipal();
-//		userList.add(user);
+		System.out.println(sb.getPrincipal().toString());
+		User user = (User)sb.getPrincipal();
+		userList.add(user);
 		if (sb.isAuthenticated())
 		{
 			System.out.println("validate is OK.");
