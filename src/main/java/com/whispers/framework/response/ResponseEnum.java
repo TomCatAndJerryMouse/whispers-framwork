@@ -3,7 +3,7 @@ package com.whispers.framework.response;
 public enum ResponseEnum {
 	// 登录成功
 	LOGINSUCCESS("200","SUCC","00001","Login Success."),
-	// 登录成功
+	// 注册成功
 	REGISTSUCCESS("200","SUCC","00002","Regist Success."),
 	// 登录失败，用户名或密码错误
 	LOGINFILAD("200","ERROE","10002","Login filad.");

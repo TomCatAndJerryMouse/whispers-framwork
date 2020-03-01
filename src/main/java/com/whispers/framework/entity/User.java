@@ -16,12 +16,22 @@ public class User extends UsernamePasswordToken implements Serializable{
 	/**
 	 * 新增ID属性
 	 */
-	private String id;
+	private int id;
+	/**
+	 * 随机盐值
+	 */
+	private String salt;
 	
-	public String getId() {
+	public String getSalt() {
+		return salt;
+	}
+	public void setSalt(String salt) {
+		this.salt = salt;
+	}
+	public int getId() {
 		return id;
 	}
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 }
