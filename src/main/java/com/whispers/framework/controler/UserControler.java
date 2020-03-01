@@ -1,5 +1,4 @@
 package com.whispers.framework.controler;
-import java.util.Arrays;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -66,7 +65,6 @@ public class UserControler{
 	@RequestMapping(value="/regist")
 	@ResponseBody
 	public WhispersResponse register(@RequestBody User user,HttpServletResponse resp) {
-		userService.regist(user);
-		return new WhispersResponse(ResponseEnum.REGISTSUCCESS, null);
+		return userService.regist(user);
 	}
 }

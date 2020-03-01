@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import com.whispers.framework.common.utils.HashTool;
 import com.whispers.framework.dao.UserDao;
 import com.whispers.framework.entity.User;
+import com.whispers.framework.response.WhispersResponse;
 
 /**
  * 服务层
@@ -40,14 +41,13 @@ public class UserService
 	/**
 	 * 注册
 	 */
-	public void regist(User user) {
+	public WhispersResponse regist(User user) {
 		String pwd = String.valueOf(user.getPassword());
 		String salt = HashTool.getSalt();
 		HashTool ht = new HashTool(pwd,HashTool.SHA1,salt);
 		user.setPassword(ht.digest().toCharArray());
 		user.setSalt(salt);
-		userDao.insertUser(user);
-		System.out.println(user.getPrincipal()+"   "+ pwd);
+		return userDao.insertUser(user);
 	}
 }
 
