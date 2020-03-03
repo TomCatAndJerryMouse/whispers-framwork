@@ -2,14 +2,15 @@ package com.whispers.framework.entity;
 
 import java.io.Serializable;
 
-import org.apache.shiro.authc.UsernamePasswordToken;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * 用户类 继承UsernamePasswordToken
  * @author Administrator
  *
  */
-public class User extends UsernamePasswordToken implements Serializable{
+public class User implements Serializable{
 	
 	private static final long serialVersionUID = -6539506759384094975L;
 	
@@ -17,9 +18,21 @@ public class User extends UsernamePasswordToken implements Serializable{
 	 * 新增ID属性
 	 */
 	private int id;
+	
+    /**
+     * The username
+     */
+    private String username;
+
+    /**
+     * The password, in char[] format
+     */
+    private String password;
+    
 	/**
 	 * 随机盐值
 	 */
+    @JsonIgnore
 	private String salt;
 	
 	public String getSalt() {
@@ -34,4 +47,19 @@ public class User extends UsernamePasswordToken implements Serializable{
 	public void setId(int id) {
 		this.id = id;
 	}
+	public String getUsername() {
+		return username;
+	}
+	public void setUsername(String username) {
+		this.username = username;
+	}
+	@JsonIgnore
+	public String getPassword() {
+		return password;
+	}
+	@JsonProperty
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	
 }

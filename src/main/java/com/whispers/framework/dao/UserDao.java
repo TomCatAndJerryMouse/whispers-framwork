@@ -31,21 +31,12 @@ public class UserDao
 	@Autowired
 	public JdbcTemplate jdbcTemplate;
 	
-	public User getUser(User user)
+	public User getUserByUserName(String username)
 	{
-		System.out.println("begin query username = " + user.getUsername());
+		System.out.println("begin query user by username + " + username + " +from db. ");
 		User newUser = null;
-		try
-		{
-			newUser = jdbcTemplate.queryForObject(getuserSql, new Object[] {user.getUsername()}, new BeanPropertyRowMapper<User>(User.class));
-		}
-        catch(EmptyResultDataAccessException e)
-		{
-        	System.out.println("EmptyResultDataAccessException " + e);
-        	return newUser;
-        	
-		}
-		System.out.println("getUser Success username = " + newUser.getUsername());
+		newUser = jdbcTemplate.queryForObject(getuserSql, new Object[] {username}, new BeanPropertyRowMapper<User>(User.class));
+		System.out.println("begin query user by username end.");
 		return newUser;
 	}
 	 

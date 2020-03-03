@@ -18,24 +18,14 @@ public class UserService
 	@Autowired
 	private UserDao userDao;
 	/**
-	 * 登录校验
+	 * 获取用户
 	 * @param user
 	 * @return
 	 */
-	public boolean checkLogin(User user)
+	public User getUserByUserName(String username)
 	{
-		System.out.println("checkLogin");
-		User newUser = userDao.getUser(user);
-		if (null != newUser && newUser.getUsername().equals(user.getUsername()) && newUser.getPassword().equals(user.getPassword()))
-		{
-			System.out.println("dao success");
-			return true;
-		}
-		else
-		{
-			System.out.println("dao failt!");
-			return false;
-		}
+		System.out.println("getUser service.");
+		return userDao.getUserByUserName(username);
 	}
 	
 	/**
@@ -45,7 +35,7 @@ public class UserService
 		String pwd = String.valueOf(user.getPassword());
 		String salt = HashTool.getSalt();
 		HashTool ht = new HashTool(pwd,HashTool.SHA1,salt);
-		user.setPassword(ht.digest().toCharArray());
+		user.setPassword(ht.digest());
 		user.setSalt(salt);
 		return userDao.insertUser(user);
 	}

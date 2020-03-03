@@ -15,6 +15,7 @@ import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.whispers.framework.common.utils.HashTool;
 import com.whispers.framework.entity.User;
 import com.whispers.framework.service.UserService;
 
@@ -27,10 +28,8 @@ public class UserReaml extends AuthorizingRealm {
      */
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
 		System.out.println("AAAAAAAAAAAAAA");
-		String username = (String)principals.getPrimaryPrincipal();
 		SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
 		// 根据用户名查询用户角色
-		//TODO
 		Set<Role> roles = null;
 		Set<String> roleNames = new HashSet<String>();
 		Iterator<Role> iterator = roles.iterator();
@@ -57,27 +56,19 @@ public class UserReaml extends AuthorizingRealm {
      */
 	@Override
 	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationtoken) throws AuthenticationException {
-		System.out.println("CCCCCCC");
-		User user = new User();
-		System.out.println("DDDDDDD");
-		System.out.println(authenticationtoken.getCredentials());
-		System.out.println(authenticationtoken.getPrincipal());
+		System.out.println("DoGetAuthentication begain.");
         // 把token转换成User对象  
-		UsernamePasswordToken usernamepasswordtoken = (UsernamePasswordToken)authenticationtoken; 
-		user.setUsername(usernamepasswordtoken.getUsername());
-		System.out.println(usernamepasswordtoken.getPassword());
-//		user.setPassword(String.valueOf(usernamepasswordtoken.getPassword()));  
-		user.setPassword(usernamepasswordtoken.getPassword()); 
-		boolean isHasUser = userService.checkLogin(user);
-		if (isHasUser)
-		{
-			System.out.println("DDDDDDD");
-			return new SimpleAuthenticationInfo(authenticationtoken.getPrincipal(), user.getPassword(), this.getName());
+		UsernamePasswordToken authenticationUser = (UsernamePasswordToken)authenticationtoken;
+		User dbUser = userService.getUserByUserName(authenticationUser.getUsername());
+		if (null == dbUser){
+			return new SimpleAuthenticationInfo();
 		}
-		else
-		{
-			System.out.println("FFFFFFFFF");
-			return null;
-		}
+		// 将输入用户信息使密码加密为
+		String pwd = String.valueOf(authenticationUser.getPassword());
+		HashTool ht = new HashTool(pwd,HashTool.SHA1,dbUser.getSalt());
+		authenticationUser.setPassword(ht.digest().toCharArray());
+		System.out.println("DoGetAuthentication end.");
+		// 返回新用户认证信息
+		return new SimpleAuthenticationInfo(dbUser, dbUser.getPassword(), this.getName());
 	}
 }

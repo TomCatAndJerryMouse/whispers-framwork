@@ -1,6 +1,7 @@
 package com.whispers.framework.response;
 
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class WhispersResponse {
 	
@@ -13,9 +14,9 @@ public class WhispersResponse {
 	// 描述
 	private String desc;
 	// 响应数据
-	private List<?> datas;
+	private Map datas = new HashMap<>();
 	
-	public WhispersResponse(ResponseEnum responseenum, List<?> datas) {
+	public WhispersResponse(ResponseEnum responseenum, Map datas) {
 		this.statusCode = responseenum.getStatusCode();
 		this.type = responseenum.getType();
 		this.code = responseenum.getCode();
@@ -53,10 +54,12 @@ public class WhispersResponse {
 	public void setDesc(String desc) {
 		this.desc = desc;
 	}
-	public List<?> getDatas() {
+
+	public Map getDatas() {
 		return datas;
 	}
-	public void setDatas(List<?> datas) {
+
+	public void setDatas(Map datas) {
 		this.datas = datas;
 	}
 }

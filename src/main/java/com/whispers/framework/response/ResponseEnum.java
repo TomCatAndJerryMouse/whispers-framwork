@@ -3,10 +3,20 @@ package com.whispers.framework.response;
 public enum ResponseEnum {
 	// 登录成功
 	LOGINSUCCESS("200","SUCC","00001","Login Success."),
-	// 注册成功
-	REGISTSUCCESS("200","SUCC","00002","Regist Success."),
 	// 登录失败，用户名或密码错误
-	LOGINFILAD("200","ERROE","10002","Login filad.");
+	LOGINFILAD("200","ERROE","10001","Login filad."),
+	// 注销成功
+	LOGOUTSUCCESS("200","SUCC","00002","Logout Success."),
+	// 注销失败
+	LOGOUTFILAD("200","ERROE","00002","Logout filad."),
+	// 注册成功
+	REGISTSUCCESS("200","SUCC","00003","Regist Success."),
+	// 注册失败
+	REGISTFILAD("200","ERROE","10003","Regist filad."),
+	// 验证成功
+	VALIDATEUCCESS("200","SUCC","00004","Validate Success."),
+	// 验证失败
+	VALIDATEFILAD("200","ERROE","10004","Validate filad.");
 	// 响应枚举类型，状态吗
 	private String statusCode = "200";
 	// 响应枚举类型，标识业务是否成功或者失败

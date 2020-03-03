@@ -1,7 +1,7 @@
 package com.whispers.framework.controler;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -10,9 +10,11 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.whispers.framework.entity.User;
+import com.whispers.framework.response.ResponseConstant;
 import com.whispers.framework.response.ResponseEnum;
 import com.whispers.framework.response.WhispersResponse;
 
@@ -32,24 +34,23 @@ import com.whispers.framework.response.WhispersResponse;
 @RequestMapping(value="/rest/")
 public class BaseControler
 {
-	@RequestMapping(value="/validate")
+	@RequestMapping(value="/validate",method = RequestMethod.GET)
 	@ResponseBody
 	public WhispersResponse validate(HttpServletRequest request, HttpServletResponse response)
 	{
 		Subject sb = SecurityUtils.getSubject();
-		List<User> userList = new ArrayList<User>();
-		System.out.println(sb.getPrincipal().toString());
-		User user = (User)sb.getPrincipal();
-		userList.add(user);
 		if (sb.isAuthenticated())
 		{
+			Map<String,User> datas = new HashMap<String,User>();
+			User user = (User)sb.getPrincipal();
+			datas.put(ResponseConstant.CONTAIN, user);
 			System.out.println("validate is OK.");
-			return new WhispersResponse(ResponseEnum.LOGINSUCCESS,userList);
+			return new WhispersResponse(ResponseEnum.VALIDATEUCCESS,datas);
         }
 		else
 		{
-			System.out.println("validate LOGINFILAD.");
-        	return new WhispersResponse(ResponseEnum.LOGINFILAD,null);
+			System.out.println("validate filad.");
+        	return new WhispersResponse(ResponseEnum.VALIDATEFILAD,null);
         }
 	}
 }
