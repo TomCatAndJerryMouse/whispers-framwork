@@ -2,35 +2,35 @@ package com.whispers.framework.response;
 
 public enum ResponseEnum {
 	// 登录成功
-	LOGINSUCCESS("200","SUCC","00001","Login Success."),
-	// 登录失败，用户名或密码错误
-	LOGINFILAD("200","ERROE","10001","Login filad."),
+	LOGINSUCCESS(200,"SUCC","00001","Login Success."),
+	// 登录失败，认证失败
+	LOGINFILAD(401,"ERROE","10001","Authentication failed."),
 	// 注销成功
-	LOGOUTSUCCESS("200","SUCC","00002","Logout Success."),
+	LOGOUTSUCCESS(200,"SUCC","00002","Logout Success."),
 	// 注销失败
-	LOGOUTFILAD("200","ERROE","00002","Logout filad."),
+	LOGOUTFILAD(200,"ERROE","00002","Logout filad."),
 	// 注册成功
-	REGISTSUCCESS("200","SUCC","00003","Regist Success."),
+	REGISTSUCCESS(200,"SUCC","00003","Regist Success."),
 	// 注册失败
-	REGISTFILAD("200","ERROE","10003","Regist filad."),
+	REGISTFILAD(200,"ERROE","10003","Regist filad."),
 	// 验证成功
-	VALIDATEUCCESS("200","SUCC","00004","Validate Success."),
+	VALIDATEUCCESS(200,"SUCC","00004","Validate Success."),
 	// 验证失败
-	VALIDATEFILAD("200","ERROE","10004","Validate filad.");
+	VALIDATEFILAD(200,"ERROE","10004","Validate filad.");
 	// 响应枚举类型，状态吗
-	private String statusCode = "200";
+	private int statusCode = 200;
 	// 响应枚举类型，标识业务是否成功或者失败
 	private String type;
 	// 响应枚举，消息编码
 	private String code;
 	// 响应枚举描述
 	private String desc;
-	
-	public String getStatusCode() {
+
+	public int getStatusCode() {
 		return statusCode;
 	}
 
-	public void setStatusCode(String statusCode) {
+	public void setStatusCode(int statusCode) {
 		this.statusCode = statusCode;
 	}
 
@@ -58,7 +58,7 @@ public enum ResponseEnum {
 		this.desc = desc;
 	}
 
-	ResponseEnum(String statusCode, String type,String code, String desc) {
+	ResponseEnum(int statusCode, String type,String code, String desc) {
 		this.statusCode = statusCode;
 		this.type = type;
 		this.code = code;

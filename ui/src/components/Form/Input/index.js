@@ -9,9 +9,23 @@ class index extends Component {
         this.state = {  }
     }
     render() { 
-        const {id,width,onClick,type,placeholder} = this.props;
+        const {id,
+            width,
+            onClick,
+            type,
+            placeholder,
+            onChange,
+        } = this.props;
+
         return ( 
-            <input id={id} className="wIput" style={{width}} placeholder={placeholder} onClick={onClick} type={type}/>
+            <input id={id}
+                className="wIput"
+                style={{width}}
+                type={type}
+                placeholder={placeholder} 
+                onClick={onClick}
+                onChange={onChange}
+             />
          );
     }
 }

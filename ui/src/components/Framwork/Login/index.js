@@ -28,6 +28,7 @@ const mapDispatchToProps = dispatch => ({
         dispatch(loginSaga(data))
     },
 })
+
 /**
  * 登录页面
  */
@@ -39,12 +40,26 @@ class index extends Component {
         super(props);
         this.state = { 
             username:"",
-            pwd:"",
+            password:"",
          }
     }
 
+    // 登录
     login(){
-        this.props.login({"username":"admin","password":"admin"});
+        this.props.login({"username":this.state.username,"password":this.state.password});
+    }
+
+    // 更新登录信息
+    loadLoginInfo(e){
+        if (e.target.id === "username") {
+            this.setState({
+                username:e.target.value,
+            })
+        } else if (e.target.id === "password") {
+            this.setState({
+                password:e.target.value,
+            })
+        }
     }
 
     render() {
@@ -59,10 +74,10 @@ class index extends Component {
                         <Column col={12}>{i18n.ACCOUT_LOGIN_LABLE}</Column>
                     </Row>
                     <Row>
-                        <Column col={12}><Input type="text" placeholder={i18n.ACCOUT}/></Column>
+                        <Column col={12}><Input id="username" type="text" placeholder={i18n.ACCOUT} onChange={this.loadLoginInfo.bind(this)}/></Column>
                     </Row>
                     <Row>
-                        <Column col={12}><Input type="password" placeholder={i18n.PASSWORD}/></Column>
+                        <Column col={12}><Input id="password" type="password" placeholder={i18n.PASSWORD} onChange={this.loadLoginInfo.bind(this)}/></Column>
                     </Row>
                     <Row>
                         <Column col={12}><Button width={"100%"} onClick={this.login.bind(this)}>{i18n.LOGIN_LABLE}</Button></Column>

@@ -44,7 +44,7 @@ public class UserControler {
         } catch (IncorrectCredentialsException ice) {
             // 捕获密码错误异常
         	System.out.println("IncorrectCredentialsException login failt!");
-        	return new WhispersResponse(ResponseEnum.LOGINFILAD,null);
+        	return new WhispersResponse(resp,ResponseEnum.LOGINFILAD,null);
         } catch (UnknownAccountException uae) {
             // 捕获未知用户名异常
         	System.out.println("UnknownAccountException login failt!");
@@ -56,7 +56,7 @@ public class UserControler {
 		} catch (AuthenticationException uae) {
         	// 用户不存在
         	System.out.println("AuthenticationException login failt!");
-        	return new WhispersResponse(ResponseEnum.LOGINFILAD,null);
+        	return new WhispersResponse(resp,ResponseEnum.LOGINFILAD,null);
         }
 			System.out.println("login success");
 			return new WhispersResponse(ResponseEnum.LOGINSUCCESS,null);

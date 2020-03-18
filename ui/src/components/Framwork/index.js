@@ -58,6 +58,7 @@ class index extends Component {
         }
     }
     render() {
+        console.log("render "+this.props.state);
         return (
             <HashRouter history={hashHistory}>
                 {this.renderComponent()}

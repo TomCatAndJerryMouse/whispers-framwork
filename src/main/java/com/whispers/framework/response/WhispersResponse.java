@@ -3,10 +3,12 @@ package com.whispers.framework.response;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
+
 public class WhispersResponse {
 	
 	// 响应类型
-	private String statusCode;
+	private int statusCode;
 	// 响应类型
 	private String type;
 	// 状态码
@@ -24,11 +26,20 @@ public class WhispersResponse {
 		this.datas = datas;
 	}
 	
-	public String getStatusCode() {
+	public WhispersResponse(HttpServletResponse hsr ,ResponseEnum responseenum, Map datas) {
+		this.statusCode = responseenum.getStatusCode();
+		hsr.setStatus(this.statusCode);
+		this.type = responseenum.getType();
+		this.code = responseenum.getCode();
+		this.desc = responseenum.getDesc();
+		this.datas = datas;
+	}
+	
+	public int getStatusCode() {
 		return statusCode;
 	}
 
-	public void setStatusCode(String statusCode) {
+	public void setStatusCode(int statusCode) {
 		this.statusCode = statusCode;
 	}
 
