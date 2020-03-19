@@ -9,6 +9,10 @@ import {
     LocaleProvider,
 } from "../../index";
 import * as nls from "./nls";
+import { connect } from 'react-redux'
+import {
+    logOutSaga,
+} from "../../../actions/index"
 const i18n = LocaleProvider.loaderNls(nls);
 const data = [
     {
@@ -32,10 +36,22 @@ const data = [
         url:"/home3",
     },
  ];
+
+// 建立一个从（外部的）state对象到（展示型组件的）props对象的映射关系
+const mapStateToProps = state => ({
+    state:state.toJS()
+})
+
+// 建立展现型组件的参数到store.dispatch方法的映射
+const mapDispatchToProps = dispatch => ({
+    logOut:callback=>{
+        dispatch(logOutSaga())
+    },
+})
 /**
  * 登录后主页面渲染页面
  */
-export default class index extends Component {
+class index extends Component {
     render() {
         console.log("render main");
         return (
@@ -49,3 +65,4 @@ export default class index extends Component {
         )
     }
 }
+export default connect(mapStateToProps,mapDispatchToProps)(index);

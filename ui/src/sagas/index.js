@@ -1,14 +1,14 @@
 /**
  * saga实现函数
  */
-import { disbatch } from 'redux-act';
 import fetch from "../utils/fetch";
 import cfg from "../configs/envConfigs.js"
-import {all, takeEvery, put} from "redux-saga/effects"
+import {all, takeEvery, put,call} from "redux-saga/effects"
 import {
     loginSaga,
     validateSaga,
     isLogin,
+    userInfoSaga,
     userInfo,
 } from "../actions/index"
 /**
@@ -16,22 +16,44 @@ import {
  */
 function* login(){
     yield takeEvery(loginSaga().type,function* login(args) {
-        // console.log(args);
-        // let {username,password} = args.payload;
-        // let data = {
-        //     username:username,
-        //     password:password
-        // }
-        yield fetch(cfg.login,args.payload,"POST").then((data)=>{
-            if (data.code === "00001")
-            {
-              
-                //disbatch(isLogin("sss"));
-            } else {
-                //console.log(this.props.logout);
-            }
-        });
-        yield put({type:isLogin().type,state:{},payload:{isLogin:true}})
+        let opts = {
+            url : cfg.login,
+            type : 'fetch', 
+            method : 'POST',
+            data : args.payload, 
+        }
+        let rep = yield call(fetch,opts,responseHadding);
+        if (rep.statusCode == 200 && rep.type === "SUCC")
+        {
+            yield put(isLogin(true));
+        } else {
+            yield put(isLogin(false));
+        }
+      
+    })
+}
+/**
+ * 获取用户信息
+ */
+function* getUserInfo(params) {
+    yield takeEvery(userInfoSaga().type,function* getUserInfo(args) {
+        let opts = {
+            url : cfg.userInfo,
+            type : 'fetch', 
+        }
+        let resp;
+        try {
+            resp = yield call(fetch,opts,responseHadding);
+        } catch (error) {
+            console.log(error);
+           return;
+        }
+        if (resp.statusCode == 200 && resp.type === "SUCC")
+        {
+            yield put(userInfo(resp.datas));
+        } else {
+            yield put(userInfo(null));
+        }
     })
 }
 
@@ -39,29 +61,33 @@ function* login(){
   * 验证用户接口
   */
 function* validate(){
-    console.log("validate");
     yield takeEvery(validateSaga().type,function* validate(args) {
-        fetch(cfg.validate).then((data)=>{
-            if (data.code === "00001")
-            {
-                console.log("11111");
-                // this.props.login();
-            } else {
-               // console.log(this.props.logout);
-                // this.props.logout();
-            }
-        });
+        let opts = {
+            url : cfg.validate,
+            type : 'fetch', 
+        }
+        let resp = yield call(fetch,opts,responseHadding);
+        if (resp.statusCode == 200 && resp.type === "SUCC")
+        {
+            yield put(isLogin(true));
+        } else {
+            yield put(isLogin(false));
+        }
     })
 }
 
-export function* helloSaga() {
-    console.log('Hello Sagas!');
+/**
+ * 响应结果处理
+ */
+const responseHadding = function (resp){
+
 }
 
 export default function* rootSaga(){
     yield all([
         login(),
         validate(),
+        getUserInfo(),
     ])
 }
 

@@ -1,5 +1,8 @@
 package com.whispers.framework.controler;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.shiro.SecurityUtils;
@@ -17,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.whispers.framework.entity.User;
+import com.whispers.framework.response.ResponseConstant;
 import com.whispers.framework.response.ResponseEnum;
 import com.whispers.framework.response.WhispersResponse;
 import com.whispers.framework.service.UserService;
@@ -28,8 +32,21 @@ import com.whispers.framework.service.UserService;
 public class UserControler {
 	@Autowired
 	private UserService userService;
+	
 	/**
-	 * 登录接口
+	 * 注册用户
+	 * @param user 用户对象
+	 * @param resp 响应
+	 * @return
+	 */
+	@RequestMapping(value="/regist",method = RequestMethod.POST)
+	@ResponseBody
+	public WhispersResponse register(@RequestBody User user,HttpServletResponse resp) {
+		return userService.regist(user);
+	}
+	
+	/**
+	 * 登录
 	 * @param user 用户对象
 	 * @param resp 响应
 	 * @return
@@ -58,24 +75,32 @@ public class UserControler {
         	System.out.println("AuthenticationException login failt!");
         	return new WhispersResponse(resp,ResponseEnum.LOGINFILAD,null);
         }
-			System.out.println("login success");
-			return new WhispersResponse(ResponseEnum.LOGINSUCCESS,null);
+		System.out.println("login success");
+		return new WhispersResponse(ResponseEnum.LOGINSUCCESS,null);
 	}
-	
 	/**
-	 * 注册用户接口
-	 * @param user 用户对象
-	 * @param resp 响应
-	 * @return
+	 * 获取用户信息
 	 */
-	@RequestMapping(value="/regist",method = RequestMethod.POST)
+	@RequestMapping(value = "/info",method = RequestMethod.GET)
 	@ResponseBody
-	public WhispersResponse register(@RequestBody User user,HttpServletResponse resp) {
-		return userService.regist(user);
+	public WhispersResponse getUserInfo(HttpServletResponse resp) {
+		Subject sb = SecurityUtils.getSubject();
+		if (sb.isAuthenticated())
+		{
+			Map<String,User> datas = new HashMap<String,User>();
+			User user = (User)sb.getPrincipal();
+			datas.put(ResponseConstant.CONTAIN, user);
+			System.out.println("Get userInfo success.");
+			return new WhispersResponse(ResponseEnum.GET_USER_INFO_SUCCESS,datas);
+        }
+		else
+		{
+			System.out.println("Get userInfo filad.");
+        	return new WhispersResponse(resp,ResponseEnum.GET_USER_INFO_FILAD,null);
+        }
 	}
-	
 	/**
-	 * 注册用户接口
+	 * 注销用户
 	 * @param user 用户对象
 	 * @param resp 响应
 	 * @return

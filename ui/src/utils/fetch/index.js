@@ -1,7 +1,6 @@
-export default async(url = '', data = {}, type = 'GET', method = 'fetch') => {
-    type = type.toUpperCase();
-
-    if (type == 'GET') {
+export default async(opts,responseHadding) => {
+    // opts.method = (opts.method).toUpperCase();
+    if (opts.method == 'GET') {
         let dataStr = ''; //数据拼接字符串
         Object.keys(data).forEach(key => {
             dataStr += key + '=' + data[key] + '&';
@@ -9,14 +8,13 @@ export default async(url = '', data = {}, type = 'GET', method = 'fetch') => {
 
         if (dataStr !== '') {
             dataStr = dataStr.substr(0, dataStr.lastIndexOf('&'));
-            url = url + '?' + dataStr;
+            opts.url = opts.url + '?' + dataStr;
         }
     }
-
-    if (window.fetch && method == 'fetch') {
+    if (window.fetch && opts.type == 'fetch') {
         let requestConfig = {
             credentials: 'include',//为了在当前域名内自动发送 cookie ， 必须提供这个选项
-            method: type,
+            method: opts.method,
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
@@ -24,15 +22,13 @@ export default async(url = '', data = {}, type = 'GET', method = 'fetch') => {
             mode: "cors",//请求的模式
             cache: "force-cache"
         }
-
-        if (type == 'POST') {
+        if (opts.method == 'POST') {
             Object.defineProperty(requestConfig, 'body', {
-                value: JSON.stringify(data)
+                value: JSON.stringify(opts.data)
             })
         }
-        
         try {
-            const response = await fetch(url, requestConfig);
+            const response = await fetch(opts.url, requestConfig);
             const responseJson = await response.json();
             return responseJson
         } catch (error) {
@@ -48,11 +44,11 @@ export default async(url = '', data = {}, type = 'GET', method = 'fetch') => {
             }
 
             let sendData = '';
-            if (type == 'POST') {
-                sendData = JSON.stringify(data);
+            if (opts.method == 'POST') {
+                sendData = JSON.stringify(opts.data);
             }
 
-            requestObj.open(type, url, true);
+            requestObj.open(opts.method, opts.url, true);
             requestObj.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
             requestObj.send(sendData);
 

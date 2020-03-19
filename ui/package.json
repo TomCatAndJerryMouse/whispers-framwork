@@ -41,5 +41,8 @@
     "webpack": "^4.41.2",
     "webpack-dev-server": "^3.9.0",
     "webpack-merge": "^4.2.2"
+  },
+  "devDependencies": {
+    "immutable": "^4.0.0-rc.12"
   }
 }

@@ -16,7 +16,11 @@ public enum ResponseEnum {
 	// 验证成功
 	VALIDATEUCCESS(200,"SUCC","00004","Validate Success."),
 	// 验证失败
-	VALIDATEFILAD(200,"ERROE","10004","Validate filad.");
+	VALIDATEFILAD(401,"ERROE","10004","Validate filad."),
+	// 获取用户信息成功
+	GET_USER_INFO_SUCCESS(200,"SUCC","00004","Get userInfo Success."),
+	// 获取用户信息失败
+	GET_USER_INFO_FILAD(500,"ERROE","10004","Get userInfo filad.");
 	// 响应枚举类型，状态吗
 	private int statusCode = 200;
 	// 响应枚举类型，标识业务是否成功或者失败

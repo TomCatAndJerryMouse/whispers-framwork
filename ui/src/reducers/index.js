@@ -19,11 +19,9 @@ import {
   
 export default createReducer({
       [isLogin]:(state,data)=>{
-        console.log("createReducer " + data);
-        console.log("createReducer " + data.isLogin);
-       1
-        // state.set("isLogin",data)
+        return state.set("isLogin",data);
       },
-      [userInfo]:(state,data)=>
-        state.set("userInfo",data),
-  },0)
+      [userInfo]:(state,data)=>{
+        return state.set("userInfo",data);
+      },
+  })

@@ -4,22 +4,21 @@ import { connect } from 'react-redux'
 import Login from "./Login/index";
 import Main from "./Main/index";
 import {
-    loginSaga,
-    validateSaga,
-    logOutSaga
+    logOutSaga,
+    userInfoSaga,
 } from "../../actions/index"
 
 // 建立一个从（外部的）state对象到（展示型组件的）props对象的映射关系
 const mapStateToProps = state => ({
-    state:state
+    state:state.toJS()
 })
 
 // 建立展现型组件的参数到store.dispatch方法的映射
 const mapDispatchToProps = dispatch => ({
-    validate:callback=>{
-        dispatch(validateSaga())
+    userInfo:callback=>{
+        dispatch(userInfoSaga())
     },
-    loginOut:callback=>{
+    logOut:callback=>{
         dispatch(logOutSaga())
     },
 })
@@ -30,21 +29,17 @@ const mapDispatchToProps = dispatch => ({
 class index extends Component {
     constructor(props){
         super(props);
-        console.log("props.store");
-        console.log(props);
-        this.state = {
-            isLogin:false,
-        }
     }
 
     componentWillMount(){
-        console.log("validate");
-        this.props.validate();
+        this.props.userInfo();
     }
+
     // 通过鉴权信息渲染界面
     renderComponent()
     {
-        if (this.state.isLogin) {
+        console.log("this.props.state.userInfo " + this.props);
+        if (this.props.state.userInfo) {
             return (
                 <Main/>
             )
@@ -57,8 +52,9 @@ class index extends Component {
             )
         }
     }
+
     render() {
-        console.log("render "+this.props.state);
+        console.log(this.props);
         return (
             <HashRouter history={hashHistory}>
                 {this.renderComponent()}
