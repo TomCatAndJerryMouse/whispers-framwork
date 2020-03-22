@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import Row from "../../components/Row/index";
-import Col from "../../components/Column/index";
+import {
+    Row,
+    Col,
+} from "../../components/index";
 class index extends Component {
     constructor(props) {
         super(props);

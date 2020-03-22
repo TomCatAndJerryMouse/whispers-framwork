@@ -22,13 +22,10 @@ function* login(){
             method : 'POST',
             data : args.payload, 
         }
-        let rep = yield call(fetch,opts,responseHadding);
+        let rep = yield call(fetch,opts);
         if (rep.statusCode == 200 && rep.type === "SUCC")
-        {
-            yield put(isLogin(true));
-        } else {
-            yield put(isLogin(false));
-        }
+            yield put(userInfoSaga());
+
       
     })
 }
@@ -43,7 +40,7 @@ function* getUserInfo(params) {
         }
         let resp;
         try {
-            resp = yield call(fetch,opts,responseHadding);
+            resp = yield call(fetch,opts);
         } catch (error) {
             console.log(error);
            return;
@@ -66,7 +63,7 @@ function* validate(){
             url : cfg.validate,
             type : 'fetch', 
         }
-        let resp = yield call(fetch,opts,responseHadding);
+        let resp = yield call(fetch,opts);
         if (resp.statusCode == 200 && resp.type === "SUCC")
         {
             yield put(isLogin(true));
@@ -74,13 +71,6 @@ function* validate(){
             yield put(isLogin(false));
         }
     })
-}
-
-/**
- * 响应结果处理
- */
-const responseHadding = function (resp){
-
 }
 
 export default function* rootSaga(){

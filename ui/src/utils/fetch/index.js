@@ -1,4 +1,11 @@
-export default async(opts,responseHadding) => {
+/**
+ * 响应结果处理
+ */
+const responseHadding = function (resp){
+
+}
+
+export default async(opts) => {
     // opts.method = (opts.method).toUpperCase();
     if (opts.method == 'GET') {
         let dataStr = ''; //数据拼接字符串
@@ -19,8 +26,8 @@ export default async(opts,responseHadding) => {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
-            mode: "cors",//请求的模式
-            cache: "force-cache"
+            mode: "cors",// 确定跨域请求是否导致有效的响应
+            cache: "no-store",
         }
         if (opts.method == 'POST') {
             Object.defineProperty(requestConfig, 'body', {

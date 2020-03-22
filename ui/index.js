@@ -4,7 +4,7 @@
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
 import ReactDOM from 'react-dom';
-import Framwork from './src/components/Framwork/index';
+import Framwork from './src/whispers/framwork/index';
 import store from './src/store/index'
 import PortalFramwork from './src/components/PortalFramwork/index';
 

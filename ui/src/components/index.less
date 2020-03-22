@@ -1,9 +1,16 @@
 *{
+    // 让所有DMOpadding计算到元素宽度中
     box-sizing: border-box;
-    // 一下是颜色平滑切换样式
-    -webkit-transition-property: background-color;
-    -webkit-transition-duration: 0.3s;
+    // 背景色过度
+    transition: background-color 1s;
+    transition-timing-function: ease; // 慢速开始，然后变快，然后慢速结束的过渡效果
+    -webkit-transition: background-color width 1s; // Safari 
     -webkit-transition-timing-function: ease;
+    font-size: 12px;
+}
+// 谷歌表单默认样式
+input:-internal-autofill-selected {
+    transition: background-color 5000s ease-in-out 0s !important;
 }
 //主题1
 @colorMain: rgb(38, 150, 72);//导航栏背景

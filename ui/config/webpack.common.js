@@ -7,9 +7,11 @@ module.exports = {
     node: {
         fs: "empty"
     },
-    entry: {// 编译入口文件
-       app: './index.js', 
-    },
+    entry: // 编译入口文件
+        [
+            "@babel/polyfill",  // 解决ie浏览器兼容问题
+            './index.js', 
+        ],
     resolve: {
         extensions: ['*', '.js', '.jsx', '.css', '.less']
     },

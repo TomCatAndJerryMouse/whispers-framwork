@@ -25,19 +25,18 @@
 //     })
 //     return ss;
 // }
-import Body from "./Body/index";
-import Column from "./Column/index";
-import Container from "./Container/index";
-import Footer from "./Footer/index";
-import Button from "./Form/Button/index";
-import Input from "./Form/Input/index";
-import Framwork from "./Framwork/index";
-import Header from "./Header/index";
+import Body from "./Layout/Body/index";
+import Column from "./Layout/Column/index";
+import Container from "./Layout/Container/index";
+import Footer from "./Layout/Footer/index";
+import Button from "./General/Form/Button/index";
+import Input from "./DataEntry/Input/index";
+import Header from "./Layout/Header/index";
 import Layout from "./Layout/index";
-import Menu from "./Menu/index";
+import Menu from "./Navigation/Menu/index";
 import RouteLoader from "./RouteLoader/index";
-import Row from "./Row/index";
-import Sider from "./Sider/index";
+import Row from "./Layout/Row/index";
+import Sider from "./Layout/Sider/index";
 import * as LocaleProvider from "./LocaleProvider/index";
 export {
     Body,
@@ -46,7 +45,6 @@ export {
     Footer,
     Button,
     Input,
-    Framwork,
     Header,
     Layout,
     Menu,
