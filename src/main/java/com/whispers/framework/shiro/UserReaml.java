@@ -16,13 +16,14 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.whispers.framework.common.utils.HashTool;
+import com.whispers.framework.common.utils.TokenUtils;
 import com.whispers.framework.entity.User;
-import com.whispers.framework.service.UserService;
+import com.whispers.framework.service.impl.UserServiceImpl;
 
 public class UserReaml extends AuthorizingRealm {
 	
 	@Autowired
-	private UserService userService;
+	private UserServiceImpl userService;
     /**
      * 提供用户信息返回权限信息
      */
@@ -57,16 +58,18 @@ public class UserReaml extends AuthorizingRealm {
 	@Override
 	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationtoken) throws AuthenticationException {
 		System.out.println("DoGetAuthentication begain.");
-        // 把token转换成User对象  
+		// 获取界面输入用户登录信息对象
 		UsernamePasswordToken authenticationUser = (UsernamePasswordToken)authenticationtoken;
+		// 取出登录名查询用户信息
 		User dbUser = userService.getUserByUserName(authenticationUser.getUsername());
 		if (null == dbUser){
 			return new SimpleAuthenticationInfo();
 		}
-		// 将输入用户信息使密码加密为
+		// 取出当前登录密码使用查询出来的用户盐值加密密码
 		String pwd = String.valueOf(authenticationUser.getPassword());
 		HashTool ht = new HashTool(pwd,HashTool.SHA1,dbUser.getSalt());
 		authenticationUser.setPassword(ht.digest().toCharArray());
+		dbUser.setToken(TokenUtils.creatToken());
 		System.out.println("DoGetAuthentication end.");
 		// 返回新用户认证信息
 		return new SimpleAuthenticationInfo(dbUser, dbUser.getPassword(), this.getName());

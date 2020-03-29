@@ -29,6 +29,17 @@ public class User implements Serializable{
      */
     private String password;
     
+    public String getToken() {
+		return token;
+	}
+	public void setToken(String token) {
+		this.token = token;
+	}
+	/**
+     * 随机token
+     */
+    private String token;
+    
 	/**
 	 * 随机盐值
 	 */

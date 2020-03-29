@@ -89,7 +89,17 @@ public class HashTool {
 	public void setSoures(String soures) {
 		this.soures = soures;
 	}
-	
+	/**
+	 * 更新
+	 * @param soures 加密内容
+	 * @param hashType 加密类型
+	 * @param salt 加密盐值
+	 */
+	public void update(String soures,String hashType,String salt) {
+		this.soures = soures;
+		this.hashType = hashType;
+		this.salt = salt;
+	}
 	/**
 	 * 转换
 	 */
