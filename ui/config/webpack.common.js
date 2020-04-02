@@ -65,6 +65,6 @@ module.exports = {
     ],
     output: { // 编译输出
         path: path.resolve(__dirname, '../public'),  // 输出目录参数
-        filename: "script/[name].bundle.js" // 输出文件名
+        filename: "static/script/[name][hash].bundle.js" // 输出文件名
     },
 }
