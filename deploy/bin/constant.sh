@@ -8,6 +8,8 @@ tomctDir=$runctimDir/tomcat
 jreDir=$runctimDir/jre
 appDir=$runctimDir/app
 nginxDir=$runctimDir/nginx
+# niginx运行目录
+nginxRuningDir=/usr/local/nginx/
 #配置目录
 configDir=$instllallDir/conf
 sqlConfigDir=$configDir/sql

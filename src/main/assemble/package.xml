@@ -25,13 +25,17 @@
 	         <directory>${project.basedir}\deploy</directory>
 	         <outputDirectory>\</outputDirectory>
 <!-- 	         <fileMode>0644</fileMode> -->
-	     </fileSet>
+     	</fileSet>
         <fileSet>
 	         <directory>${project.basedir}\target</directory>
 	         <outputDirectory>\Runtime\app</outputDirectory>
    			 <includes>
                 <include>*.war</include>
              </includes>
+	     </fileSet>
+         <fileSet>
+	         <directory>${project.basedir}\ui\public</directory>
+	         <outputDirectory>\Runtime\app\html\${artifactId}</outputDirectory>
 	     </fileSet>
   	</fileSets>
 </assembly>
